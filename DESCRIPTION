@@ -1,0 +1,46 @@
+Package: MapAgora
+Title: Getting tax reports, websites, and social media handles related to nonprofit organizations in the United States 
+Version: 0.0.1
+Authors@R: 
+    c(person(given = "Milan",
+           family = "de Vries",
+           role = c("aut"),
+           email = "milandv@jhu.edu"),
+      person(given = "Jae Yeon",
+           family = "Kim",
+           role = c("aut", "cre"),
+           email = "jaeyeonkim@berkeley.edu",
+           comment = c(ORCID = "0000-0002-6533-7910")))
+Description: A tool for gettting tax reports, websites, and social media handles related to nonprofit organizations in the United States.
+Maintainer: Jae Yeon Kim <jaeyeonkim@berkeley.edu>
+BugReports: https://github.com/snfagora/MapAgora/issues
+License: MIT + file LICENSE
+Encoding: UTF-8
+Imports: 
+  rvest, 
+  jsonlite, 
+  stringr, 
+  tibble, 
+  tidyr, 
+  readr, 
+  dplyr, 
+  purrr, 
+  furrr, 
+  here, 
+  glue, 
+  rex, 
+  urltools, 
+  magrittr, 
+  htm2txt,
+  xml2, 
+  textclean, 
+  httr, 
+  XML
+LazyData: true
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.1.1
+Suggests: 
+    testthat (>= 3.0.0),
+    spelling
+Language: en-US
+Config/testthat/edition: 3
