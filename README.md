@@ -6,13 +6,11 @@
 
 The goal of MapAgora is to ...
 
-## Installation
+## Install the current development version from GitHub
 
-You can install the released version of MapAgora from [CRAN](https://CRAN.R-project.org) with:
+if (!require("devtools")) install.packages("devtools")
 
-``` r
-install.packages("MapAgora")
-```
+install_github("p3lab/GetAboutPages", dependencies = TRUE)
 
 ## Example
 
