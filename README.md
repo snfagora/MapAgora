@@ -11,7 +11,7 @@ The goal of MapAgora is to ...
 ```r
 if (!require("devtools")) install.packages("devtools")
 
-install_github("p3lab/GetAboutPages", dependencies = TRUE)
+install_github("snfagora/MapAgora", dependencies = TRUE)
 ```
 
 ## Example
