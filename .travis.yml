@@ -1,0 +1,21 @@
+# R for travis: see documentation at https://docs.travis-ci.com/user/languages/r
+
+# Use R panguage
+language: R
+cache: packages
+
+addons:
+    apt:
+        packages:
+            - libxml2-dev # for XML
+
+# Dependencies from github
+# r_github_packages: r-lib/testthat
+
+# Dependencies from CRAN
+r_packages:
+    - RTest
+    - testthat
+
+# System dependencies
+SystemRequirements: libxml2 (>= 2.6.3)

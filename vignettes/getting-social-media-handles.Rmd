@@ -1,0 +1,19 @@
+---
+title: "getting-social-media-handles"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{getting-social-media-handles}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(MapAgora)
+```

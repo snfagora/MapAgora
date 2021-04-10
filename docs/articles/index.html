@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Check if a url exists with httr — url_exists • MapAgora</title>
+<title>Articles • MapAgora</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,7 @@
 
 
 
-<meta property="og:title" content="Check if a url exists with httr — url_exists" />
-<meta property="og:description" content="Check if a url exists with httr" />
+<meta property="og:title" content="Articles" />
 
 
 
@@ -59,7 +58,7 @@
   </head>
 
   <body data-spy="scroll" data-target="#toc">
-    <div class="container template-reference-topic">
+    <div class="container template-article-index">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -129,49 +128,22 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Check if a url exists with httr</h1>
-    <small class="dont-index">Source: <a href='https://github.com/snfagora/MapAgora/blob/master/R/get_about_pages.r'><code>R/get_about_pages.r</code></a></small>
-    <div class="hidden name"><code>url_exists.Rd</code></div>
+      <h1>Articles</h1>
     </div>
 
-    <div class="ref-description">
-    <p>Check if a url exists with httr</p>
+    <div class="section ">
+      <h3>All vignettes</h3>
+      <p class="section-desc"></p>
+
+      <dl>
+        <dt><a href="getting-IRS.html">getting-IRS</a></dt>
+        <dd></dt>
+        <dt><a href="getting-social-media-handles.html">getting-social-media-handles</a></dt>
+        <dd></dt>
+        <dt><a href="getting-websites.html">getting-websites</a></dt>
+        <dd></dt>
+      </dl>
     </div>
-
-    <pre class="usage"><span class='fu'>url_exists</span><span class='op'>(</span><span class='va'>url</span>, non_2xx_return_value <span class='op'>=</span> <span class='cn'>FALSE</span>, quiet <span class='op'>=</span> <span class='cn'>TRUE</span>, timeout_thres <span class='op'>=</span> <span class='fl'>10</span><span class='op'>)</span></pre>
-
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-    <table class="ref-arguments">
-    <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>url</th>
-      <td><p>A URL to check</p></td>
-    </tr>
-    <tr>
-      <th>non_2xx_return_value</th>
-      <td><p>what to do if the site exists but the
-HTTP status code is not in the <code>2xx</code> range. Default is to return <code>TRUE</code>.</p></td>
-    </tr>
-    <tr>
-      <th>quiet</th>
-      <td><p>if not <code>FALSE</code>, then every time the <code>non_2xx_return_value</code> condition
-arises a warning message will be displayed. Default is <code>TRUE</code>.</p></td>
-    </tr>
-    <tr>
-      <th>timeout_thres</th>
-      <td><p>timeout in seconds for httr attempt</p></td>
-    </tr>
-    </table>
-
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
-
-    <p>A boolean value to indicate whether a website is reachable</p>
-
-  </div>
-  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
-    <nav id="toc" data-toggle="toc" class="sticky-top">
-      <h2 data-toc-skip>Contents</h2>
-    </nav>
   </div>
 </div>
 

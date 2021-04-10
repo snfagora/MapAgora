@@ -2,6 +2,7 @@
 # MapAgora
 
 <!-- badges: start -->
+[![Travis build status](https://travis-ci.com/snfagora/MapAgora.svg?branch=main)](https://travis-ci.com/snfagora/MapAgora)
 <!-- badges: end -->
 
 The goal of MapAgora is to ...
