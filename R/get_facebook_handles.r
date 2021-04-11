@@ -22,6 +22,13 @@ parse_facebook_page_from_page <- function(website_address, google_search_results
     if (is.null(google_search_results) == TRUE) {
         # Read HTML from website_address
         pg <- read_html(website_address)
+
+        response <- GET(website_address, config(ssl_verifypeer = FALSE, timeout = 10, followlocation = TRUE))
+
+        possible_read <- possibly(read_html, otherwise = "This URL is broken.")
+
+        pg <- possible_read(response)
+
     } else {
         pg <- google_api_results # Read HTML from Google search results
     }
