@@ -8,6 +8,7 @@ test_that("Check relative link cases", {
     expect_equal(find_about_link("http://www.saltpondscoalition.org/"), "http://www.saltpondscoalition.org/AboutUs.html")
 
 }
+
 )
 
 test_that("Check absolute link cases", {

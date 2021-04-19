@@ -104,7 +104,7 @@ extract_about_links <- function(base_url, timeout_thres = 10) {
     if (url_exists(base_url, timeout_thres = timeout_thres) == FALSE) {
         stop(glue("This URL is not responding ({timeout_thres} seconds timeout)."))}
 
-    response <- GET(base_url, config(ssl_verifypeer=FALSE, timeout=10,followlocation=TRUE))
+    response <- GET(base_url, config(ssl_verifypeer = FALSE, timeout = 10, followlocation = TRUE))
 
     # no-encoding issues from the server
     possible_read <- possibly(read_html, otherwise = "This URL is broken.")
