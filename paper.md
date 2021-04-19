@@ -50,7 +50,7 @@ install_github("snfagora/MapAgora")
 
 # Package design 
 
-**MapAgora** has been designed wit several key principles in mind.
+**MapAgora** has been designed with several key principles in mind.
 
 _Principle 1_.
 
