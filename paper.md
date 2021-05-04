@@ -52,12 +52,11 @@ install_github("snfagora/MapAgora")
 
 **MapAgora** has been designed with several key principles in mind.
 
-_Principle 1_. [Abstracted data gathering that unifies output while dealing with underlying complexity. (like 990 vs 990 EZ)]
+_Principle 1_. **User-First**. Much of the data about nonprofit organizations exists in specialized, technical structures. IRS filings, for instance, can be made on three different versions of the same form depending on the details of the organization. We approach the functions in this package based on the end-result data that a user would want to extract without requiring knowledge of the underlying data structures. Thus in this example a user seeking information about organizational revenue would be returned the relevant field from whichever form an organization filed. 
 
-_Principle 2_. [Unifiable data output. Data comes from different sources but can all be relationally linked between data sets.]
+_Principle 2_. **Linkable Outputs**. Part of the motivation of this package is that data about nonprofits stems from multiple sources. At the same time, studying organizations requires being able to unify those different data sets and so we have sought here to build outputs that can be relationally linked between different sources. 
 
-_Principle 3_. [Modularity. Get the bits of data you need from different data sets.]
-
+_Principle 3_. **Modularity**. Different researchers sudying different problems will require access to different elements of these data sources. Rather than requiring each user to build complete data sets we sought to build functions that allow users to extract the specific data they need for their organizations of interest. 
 # Acknowledgements
 
 We acknowledge support from the SNF Agora Institue and P3 Lab at the Johns Hopkins University. 
