@@ -7,7 +7,7 @@
 import_idx(year)
 }
 \arguments{
-\item{year}{A year in which a form was filed}
+\item{year}{A year in which a form was filed.}
 }
 \value{
 If successful, the function returns a XML file it contains the 990 forms filed in a particular year.

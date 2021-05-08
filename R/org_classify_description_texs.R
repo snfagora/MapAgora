@@ -1,6 +1,6 @@
 #' Import machine-readable data from 990 forms filed with the IRS
 #'
-#' @param year A year in which a form was filed
+#' @param year A year in which a form was filed.
 #'
 #' @return If successful, the function returns a XML file it contains the 990 forms filed in a particular year.
 #' @importFrom glue glue
@@ -24,35 +24,18 @@ import_idx <- function(year){
         idx <- fromJSON(url_vars)[[1]] %>%
             mutate(IRS_year = year)
 
-        message(glue("successfully importing year {year} data. You should assign this outcome to idx."))
+        message(glue("successfully importing year {year} data. Please assign this outcome to an object named idx."))
 
         return(idx)
     }
 }
 
-#' Get Employer Identification Numbers (EINs) associated with foundations
-#'
-#' @param idx A XML file it contains the 990 forms filed in a particular year. An outcome of import_idx() function.
-#'
-#' @return If successful, the function returns the EINs associated with foundations.
-#' @importFrom dplyr filter
-#' @importFrom dplyr pull
-#' @export
-
-get_foundation_ein <- function(idx){
-
-    foundation_ein <- idx %>%
-        filter(FormType == "990PF") %>%
-        pull(EIN)
-
-    return(foundation_ein)
-
-}
-
 #' Get the Amazon Web Server URL associated with a particular Employment Identification Numbers
 #'
 #' @param ein An Employment Identification Numbers
-#' @param form The default is NULL. There are three other options: "990", "990PF", "990EZ"
+#' @param form An IRS document form. The default is NULL. There are three other options: "990", "990PF", "990EZ"
+#' @param year A year in which a form was filed. The default IRS year is 2019.
+#' @param move_global Whether moving the XML file, which contains the 990 forms filed in a particular year, to the user's global environment. The default value is TRUE.
 #'
 #' @return If successful, the function returns the Amazon Web Server URL associated with a particular Employment Identification Numbers.
 #' @importFrom dplyr filter
@@ -60,26 +43,42 @@ get_foundation_ein <- function(idx){
 #' @importFrom glue glue
 #' @export
 
-get_aws_url <- function(ein, form = NULL) {
+get_aws_url <- function(ein, year = 2019, form = NULL, move_global = TRUE) {
+
+    message(glue("The IRS filing year is {year}."))
 
     # Turn search parameter into character vector
     ein <- ifelse(!is.character(ein), as.character(ein), ein)
 
     # Some organizations have two object IDs
 
-    if (exists("idx") == FALSE) {
-        stop("You first need to import IRS data and assign it to an object named idx using the import_idx() function.")
+    if (exists("idx") == FALSE | year != 2019) {
+
+        if (move_global == TRUE) {
+
+            assign("idx", import_idx(year), envir = .GlobalEnv)
+
+        } else {
+
+            idx <- import_idx(year)
+
+        }
+
     }
 
     if (is.null(form)) {
+
         obj_id <- idx %>%
             filter(EIN == ein) %>%
             select(ObjectId)
+
     } else {
+
         obj_id <- idx %>%
             filter(FormType == form) %>%
             filter(EIN == ein) %>%
             select(ObjectId)
+
     }
 
     # Glue search parameter and the rest of the URL together
@@ -102,26 +101,28 @@ get_aws_url <- function(ein, form = NULL) {
 #' Get the XML root element associated with a particular Employment Identification Numbers
 #'
 #' @param ein An Employment Identification Numbers
-#'
+#' @param year A year in which a form was filed. The default value is 2019.
 #' @return If successful, the function returns the XML root element associated with a particular Employment Identification Numbers
 #' @importFrom XML xmlTreeParse
 #' @importFrom XML xmlRoot
 #' @export
 
-get_990 <- function(ein) {
+get_990 <- function(ein, year = 2019) {
 
     ## lookup AWS object
-    xml_root <- get_aws_url(ein) %>%
+    xml_root <- get_aws_url(ein, year) %>%
         ## get page and parse xml
         xmlTreeParse() %>%
         ## get root
         xmlRoot()
 
     return(xml_root)
+
 }
 
 #' Get the name of the organization associated with a particular Employment Identification Numbers
 #'
+#' @param idx A XML file it contains the 990 forms filed in a particular year. An outcome of import_idx() function.
 #' @param ein An Employment Identification Numbers
 #'
 #' @return If successful, the function returns the name of the organization associated with a particular Employment Identification Numbers
@@ -129,13 +130,33 @@ get_990 <- function(ein) {
 #' @importFrom dplyr select
 #' @export
 
-get_organization_name_990 <- function(ein) {
+get_organization_name_990 <- function(idx, ein) {
 
     organization_name <- idx %>%
         filter(EIN == ein) %>%
         select(OrganizationName)
 
     return(organization_name)
+}
+
+
+#' Get Employer Identification Numbers (EINs) associated with foundations
+#'
+#' @param idx A XML file it contains the 990 forms filed in a particular year. An outcome of import_idx() function.
+#'
+#' @return If successful, the function returns the EINs associated with foundations.
+#' @importFrom dplyr filter
+#' @importFrom dplyr pull
+#' @export
+
+get_foundation_ein <- function(idx){
+
+    foundation_ein <- idx %>%
+        filter(FormType == "990PF") %>%
+        pull(EIN)
+
+    return(foundation_ein)
+
 }
 
 #' Standardize the website URL of an organization
@@ -229,13 +250,13 @@ standardize_url <- function(raw_website){
 #' @param text_length_threshold The length of the minimum words to filter the program descriptions
 #'
 #' @return If successful, the function returns the cleaned descriptions of the programs run by a particular organization
-#' @importFrom furrr future_map_int
+#' @importFrom purrr map_int
 #' @export
 
 clean_program_desc <- function(program_desc, text_length_threshold) {
 
     if (length(program_desc) > 0) {
-        length_check <- future_map_int(
+        length_check <- map_int(
             program_desc,
             function(x) {
                 nchar(x) > text_length_threshold
@@ -258,7 +279,15 @@ clean_program_desc <- function(program_desc, text_length_threshold) {
 #' @export
 
 ifnotNA <- function(var) {
-    ifelse(length(var) != 0, var, NA)
+
+    if (length(var) != 0) {
+
+        return(var) } else {
+
+            return(NA)
+
+        }
+
 }
 
 #' Get 990 filing type
@@ -266,7 +295,7 @@ ifnotNA <- function(var) {
 #' @param xml_root An XML root element associated with a particular organization
 #'
 #' @importFrom purrr pluck
-#' @importFrom furrr future_map_chr
+#' @importFrom purrr map_chr
 #' @importFrom XML getNodeSet
 #' @export
 
@@ -275,7 +304,7 @@ get_filing_type_990 <- function(xml_root) {
     xml_plucked <- xml_root %>%
         pluck(1) # pick the second element on the list
 
-    filing_type <- xml_plucked %>% getNodeSet("//ReturnTypeCd") %>% future_map_chr(xmlValue)
+    filing_type <- xml_plucked %>% getNodeSet("//ReturnTypeCd") %>% map_chr(xmlValue)
     return(ifnotNA(filing_type))
 
 }
@@ -288,7 +317,7 @@ get_filing_type_990 <- function(xml_root) {
 #'
 #' @return Depending on the type parameter, the function returns either a website URL, a mission statement, or a program description(s).
 #' @importFrom purrr pluck
-#' @importFrom furrr future_map_chr
+#' @importFrom purrr map_chr
 #' @importFrom XML getNodeSet
 #' @export
 
@@ -305,22 +334,22 @@ get_value_990 <- function(xml_root, type =
 
     # Outcomes
     if (type == "website") {
-        website <- xml_plucked %>% getNodeSet("//WebsiteAddressTxt") %>% future_map_chr(xmlValue)
+        website <- xml_plucked %>% getNodeSet("//WebsiteAddressTxt") %>% map_chr(xmlValue)
         return(ifnotNA(website) %>% standardize_url)
     }
 
     if (type == "mission_desc") {
         if (filing_type == "990EZ") {
-            mission_desc <- xml_plucked %>% getNodeSet("//PrimaryExemptPurposeTxt") %>% future_map_chr(xmlValue)
+            mission_desc <- xml_plucked %>% getNodeSet("//PrimaryExemptPurposeTxt") %>% map_chr(xmlValue)
         } else {
-            mission_desc <- xml_plucked %>% getNodeSet("//MissionDesc") %>% future_map_chr(xmlValue)
+            mission_desc <- xml_plucked %>% getNodeSet("//MissionDesc") %>% map_chr(xmlValue)
         }
         return(ifnotNA(mission_desc))
     }
 
     if (type == "program_desc") {
         if (filing_type == "990EZ") {
-            program_desc <- xml_plucked %>% getNodeSet("//DescriptionProgramSrvcAccomTxt") %>% future_map_chr(xmlValue) %>%
+            program_desc <- xml_plucked %>% getNodeSet("//DescriptionProgramSrvcAccomTxt") %>% map_chr(xmlValue) %>%
                 clean_program_desc(text_length_threshold)
         } else {
             program_desc <- xml_plucked %>% getNodeSet("//Desc") %>% future_map_chr(xmlValue) %>%
@@ -334,6 +363,7 @@ get_value_990 <- function(xml_root, type =
 #' Get concrete information from Schedule R
 #'
 #' @param ein An Employment Identification Numbers
+#' @param year A year in which a form was filed. The default value is 2019.
 #' @return The function returns either concrete information from Schedule R (likely a character vector) or states that such information is not present.
 #' @importFrom purrr pluck
 #' @importFrom furrr future_map_chr
@@ -343,9 +373,9 @@ get_value_990 <- function(xml_root, type =
 #' @importFrom glue glue
 #' @export
 
-get_scheduleR <- function(ein) {
+get_scheduleR <- function(ein, year = 2019) {
 
-    parsed_xml <- get_990(ein) %>%
+    parsed_xml <- get_990(ein, year) %>%
         pluck(2)
 
     # ScheduleR is present
@@ -374,6 +404,7 @@ get_scheduleR <- function(ein) {
 #' Get concrete information from Schedule O
 #'
 #' @param ein An Employment Identification Numbers
+#' @param year A year in which a form was filed. The default value is 2019.
 #' @return The function returns either concrete information from Schedule O (likely a character vector) or states that such information is not present.
 #' @importFrom purrr pluck
 #' @importFrom furrr future_map_chr
@@ -383,9 +414,9 @@ get_scheduleR <- function(ein) {
 #' @importFrom glue glue
 #' @export
 
-get_scheduleO <- function(ein) {
+get_scheduleO <- function(ein, year = 2019) {
 
-    parsed_xml <- get_990(ein) %>%
+    parsed_xml <- get_990(ein, year) %>%
         pluck(2)
 
     # ScheduleO is present
@@ -423,19 +454,17 @@ get_scheduleO <- function(ein) {
 #'
 #' @param ein An Employment Identification Numbers (EIN)
 #' @param type Different types of information users can get about an organization: "base," "extended," "unnested," and "combined". A base type output includes an organization's EIN, standardized website URL, its mission statement and program descriptions. An extended version includes information on an organization's schedule R and O documents (list columns). An unnested version transforms the information on schedule R and O documents as character vectors, not as list columns. A combined version joins the base and extended outputs together.
+#' @param year A year in which a form was filed. The default value is 2019.
 #' @return The function returns either concrete information from Schedule O (likely character) or states that such information is not present.
 #' @importFrom tibble tibble
 #' @importFrom tidyr unnest
 #' @importFrom dplyr left_join
 #' @export
 
-example_function_for_single_org <- function(ein, type = c("base",
-                                                          "extended",
-                                                          "unnested",
-                                                          "combined"))
-{
+example_function_for_single_org <- function(ein, type = c("base", "extended", "unnested", "combined"), year = 2019) {
 
-    xml_root <- get_990(ein)
+    # XML root
+    xml_root <- get_990(ein, year)
 
     # website
     website <- get_value_990(xml_root, "website")
@@ -447,10 +476,10 @@ example_function_for_single_org <- function(ein, type = c("base",
     program_desc <- get_value_990(xml_root, "program_desc")
 
     # ScheduleR
-    schedule_r <- get_scheduleR(ein)
+    schedule_r <- get_scheduleR(ein, year)
 
     # ScheduleO
-    schedule_o <- get_scheduleO(ein)
+    schedule_o <- get_scheduleO(ein, year)
 
     # put results together as a data.frame
 

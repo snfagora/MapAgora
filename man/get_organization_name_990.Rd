@@ -4,9 +4,11 @@
 \alias{get_organization_name_990}
 \title{Get the name of the organization associated with a particular Employment Identification Numbers}
 \usage{
-get_organization_name_990(ein)
+get_organization_name_990(idx, ein)
 }
 \arguments{
+\item{idx}{A XML file it contains the 990 forms filed in a particular year. An outcome of import_idx() function.}
+
 \item{ein}{An Employment Identification Numbers}
 }
 \value{

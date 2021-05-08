@@ -4,10 +4,12 @@
 \alias{get_scheduleO}
 \title{Get concrete information from Schedule O}
 \usage{
-get_scheduleO(ein)
+get_scheduleO(ein, year = 2019)
 }
 \arguments{
 \item{ein}{An Employment Identification Numbers}
+
+\item{year}{A year in which a form was filed. The default value is 2019.}
 }
 \value{
 The function returns either concrete information from Schedule O (likely a character vector) or states that such information is not present.

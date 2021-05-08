@@ -6,13 +6,16 @@
 \usage{
 example_function_for_single_org(
   ein,
-  type = c("base", "extended", "unnested", "combined")
+  type = c("base", "extended", "unnested", "combined"),
+  year = 2019
 )
 }
 \arguments{
 \item{ein}{An Employment Identification Numbers (EIN)}
 
 \item{type}{Different types of information users can get about an organization: "base," "extended," "unnested," and "combined". A base type output includes an organization's EIN, standardized website URL, its mission statement and program descriptions. An extended version includes information on an organization's schedule R and O documents (list columns). An unnested version transforms the information on schedule R and O documents as character vectors, not as list columns. A combined version joins the base and extended outputs together.}
+
+\item{year}{A year in which a form was filed. The default value is 2019.}
 }
 \value{
 The function returns either concrete information from Schedule O (likely character) or states that such information is not present.

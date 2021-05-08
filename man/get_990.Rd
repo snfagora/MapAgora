@@ -4,10 +4,12 @@
 \alias{get_990}
 \title{Get the XML root element associated with a particular Employment Identification Numbers}
 \usage{
-get_990(ein)
+get_990(ein, year = 2019)
 }
 \arguments{
 \item{ein}{An Employment Identification Numbers}
+
+\item{year}{A year in which a form was filed. The default value is 2019.}
 }
 \value{
 If successful, the function returns the XML root element associated with a particular Employment Identification Numbers
