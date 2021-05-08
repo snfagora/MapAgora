@@ -50,11 +50,12 @@ get_aws_url <- function(ein, year = 2019, form = NULL, move_global = TRUE) {
     # Turn search parameter into character vector
     ein <- ifelse(!is.character(ein), as.character(ein), ein)
 
-    # Some organizations have two object IDs
-
-    if (exists("idx") == FALSE | year != 2019) {
+    if (exists("idx") == FALSE | # If you create idx object for the first time
+        (exists("idx") == TRUE & year != 2019) # If you want to overwrite the existing idx object
+    ) {
 
         if (move_global == TRUE) {
+
 
             assign("idx", import_idx(year), envir = .GlobalEnv)
 
@@ -65,6 +66,8 @@ get_aws_url <- function(ein, year = 2019, form = NULL, move_global = TRUE) {
         }
 
     }
+
+    # Some organizations have two object IDs
 
     if (is.null(form)) {
 

@@ -138,11 +138,15 @@
     <p>Get the name of the organization associated with a particular Employment Identification Numbers</p>
     </div>
 
-    <pre class="usage"><span class='fu'>get_organization_name_990</span><span class='op'>(</span><span class='va'>ein</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>get_organization_name_990</span><span class='op'>(</span><span class='va'>idx</span>, <span class='va'>ein</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>idx</th>
+      <td><p>A XML file it contains the 990 forms filed in a particular year. An outcome of import_idx() function.</p></td>
+    </tr>
     <tr>
       <th>ein</th>
       <td><p>An Employment Identification Numbers</p></td>
