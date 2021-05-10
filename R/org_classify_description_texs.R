@@ -21,12 +21,13 @@ import_idx <- function(year){
         url_vars <- glue("https://s3.amazonaws.com/irs-form-990/index_{year}.json")
 
         # select url and import data
-        idx <- fromJSON(url_vars)[[1]] %>%
-            mutate(IRS_year = year)
+        assign(glue("idx_{year}"), fromJSON(url_vars)[[1]] %>% mutate(IRS_year = year))
 
-        message(glue("successfully importing year {year} data. Please assign this outcome to an object named idx."))
+        out <- get(glue("idx_{year}"))
 
-        return(idx)
+        message(glue("successfully importing year {year} data. Please assign this outcome to an object named idx_{year}."))
+
+        return(out)
     }
 }
 
@@ -50,24 +51,25 @@ get_aws_url <- function(ein, year = 2019, form = NULL, move_global = TRUE) {
     # Turn search parameter into character vector
     ein <- ifelse(!is.character(ein), as.character(ein), ein)
 
-    if (exists("idx") == FALSE | # If you create idx object for the first time
-        (exists("idx") == TRUE & year != 2019) # If you want to overwrite the existing idx object
-    ) {
+    # Some organizations have two object IDs
+
+    if (!exists("idx_{year}")) {
 
         if (move_global == TRUE) {
 
-
-            assign("idx", import_idx(year), envir = .GlobalEnv)
+            assign(glue("idx_{year}"), import_idx(year), envir = .GlobalEnv) # The global environment
 
         } else {
 
-            idx <- import_idx(year)
+            assign(glue("idx_{year}"), import_idx(year)) # The default is the current environment
 
         }
 
     }
 
     # Some organizations have two object IDs
+
+    idx <- get(glue("idx_{year}"))
 
     if (is.null(form)) {
 
@@ -125,7 +127,7 @@ get_990 <- function(ein, year = 2019) {
 
 #' Get the name of the organization associated with a particular Employment Identification Numbers
 #'
-#' @param idx A XML file it contains the 990 forms filed in a particular year. An outcome of import_idx() function.
+#' @param idx_year A XML file it contains the 990 forms filed in a particular year. An outcome of import_idx() function.
 #' @param ein An Employment Identification Numbers
 #'
 #' @return If successful, the function returns the name of the organization associated with a particular Employment Identification Numbers
@@ -133,9 +135,9 @@ get_990 <- function(ein, year = 2019) {
 #' @importFrom dplyr select
 #' @export
 
-get_organization_name_990 <- function(idx, ein) {
+get_organization_name_990 <- function(idx_year, ein) {
 
-    organization_name <- idx %>%
+    organization_name <- idx_year %>%
         filter(EIN == ein) %>%
         select(OrganizationName)
 
@@ -145,16 +147,16 @@ get_organization_name_990 <- function(idx, ein) {
 
 #' Get Employer Identification Numbers (EINs) associated with foundations
 #'
-#' @param idx A XML file it contains the 990 forms filed in a particular year. An outcome of import_idx() function.
+#' @param idx_year A XML file it contains the 990 forms filed in a particular year. An outcome of import_idx() function.
 #'
 #' @return If successful, the function returns the EINs associated with foundations.
 #' @importFrom dplyr filter
 #' @importFrom dplyr pull
 #' @export
 
-get_foundation_ein <- function(idx){
+get_foundation_ein <- function(idx_year){
 
-    foundation_ein <- idx %>%
+    foundation_ein <- idx_year %>%
         filter(FormType == "990PF") %>%
         pull(EIN)
 

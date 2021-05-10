@@ -4,10 +4,10 @@
 \alias{get_foundation_ein}
 \title{Get Employer Identification Numbers (EINs) associated with foundations}
 \usage{
-get_foundation_ein(idx)
+get_foundation_ein(idx_year)
 }
 \arguments{
-\item{idx}{A XML file it contains the 990 forms filed in a particular year. An outcome of import_idx() function.}
+\item{idx_year}{A XML file it contains the 990 forms filed in a particular year. An outcome of import_idx() function.}
 }
 \value{
 If successful, the function returns the EINs associated with foundations.
