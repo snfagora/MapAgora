@@ -53,7 +53,7 @@ get_aws_url <- function(ein, year = 2019, form = NULL, move_global = TRUE) {
 
     # Some organizations have two object IDs
 
-    if (!exists("idx_{year}")) {
+    if (!exists(glue("idx_{year}"))) {
 
         if (move_global == TRUE) {
 
