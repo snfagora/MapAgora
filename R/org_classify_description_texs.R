@@ -31,6 +31,25 @@ import_idx <- function(year){
     }
 }
 
+#' Data fields available from IRS 990 forms
+#'
+#' A dataset containing the variable names, associated Form 990 XML locations, Form 990 actual locations, and info
+#' for retrievable 990 Fields
+#'
+#' @format A data frame with 32 rows and 9 variables:
+#' \describe{
+#'   \item{package_variable}{name to use in this package to retrieve the field}
+#'   \item{category}{a top-level variable the variable belongs to}
+#'   \item{subcategory}{a subcategory the variable belongs to}
+#'   \item{XML_990}{the XML location for the parsed 990 form}
+#'   \item{Form_990}{the Part and Line number of the form location for this XML}
+#'   \item{XML_990EZ}{the XML location for the parsed 990 form}
+#'   \item{Form_990EZ}{the Part and Line number of the form location for this XML}
+#'   \item{XML_990PF}{the XML location for the parsed 990 form}
+#'   \item{Form_990PF}{the Part and Line number of the form location for this XML}
+#' }
+"irs_fields"
+
 #' Get the Amazon Web Server URL associated with a particular Employment Identification Numbers
 #'
 #' @param ein An Employment Identification Numbers
@@ -57,7 +76,7 @@ get_aws_url <- function(ein, year = 2019, form = NULL, move_global = TRUE) {
 
         if (move_global == TRUE) {
 
-            assign(glue("idx_{year}"), import_idx(year), envir = .GlobalEnv) # The global environment
+            assign(glue("idx_{year}"), import_idx(year), envir = globalenv()) # The global environment
 
         } else {
 
@@ -310,6 +329,10 @@ get_filing_type_990 <- function(xml_root) {
         pluck(1) # pick the second element on the list
 
     filing_type <- xml_plucked %>% getNodeSet("//ReturnTypeCd") %>% map_chr(xmlValue)
+    if (filing_type != "990EZ" & filing_type != "990PF") {
+        filing_type <- "990" #standardize other names to 990
+    }
+
     return(ifnotNA(filing_type))
 
 }
@@ -364,6 +387,66 @@ get_value_990 <- function(xml_root, type =
     }
 
 }
+
+#' Get concrete information from 990 forms
+#'
+#' @param xml_root An XML root element associated with a particular organization
+#' @param irs_variable A type of concrete information. It should correspond to a package_variable in the package's irs_fields table
+#'
+#' @return Depending on the type parameter, the function returns the value of the 990 form for the given variable or else NA.
+#' @importFrom purrr pluck
+#' @importFrom purrr map_chr
+#' @importFrom XML getNodeSet
+#' @importFrom glue glue
+#' @importFrom stringr str_detect
+#' @importFrom stringr str_split
+#' @importFrom tibble tibble
+#' @export
+
+get_single_value_990 <- function(xml_root, irs_variable) {
+
+    xml_plucked <- xml_root %>%
+        pluck(2) # pick the second element on the list
+
+    filing_type <- get_filing_type_990(xml_root) # need form type to know where to look or text
+
+    xml_field <- irs_fields %>% filter(package_variable == irs_variable) %>% select(glue("XML_{filing_type}"))
+
+    if (is.na(xml_field)) {
+        return(NA)
+    }
+
+    if (str_detect(xml_field,"<br>")) {
+        subfields <- tibble(xml_field = str_split(xml_field,"<br>")[[1]]) %>% rowwise() %>%
+            mutate(value = ifnotNA(xml_plucked %>% getNodeSet(xml_field) %>% map_chr(xmlValue)))
+        form_value <- sum(as.numeric(subfields$value),na.rm = T)
+    } else {
+        form_value <- xml_plucked %>% getNodeSet(xml_field) %>% map_chr(xmlValue)
+    }
+    return(ifnotNA(form_value))
+}
+
+#' Get all financial fields for a given org
+#'
+#' @param xml_root An XML root element associated with a particular organization
+#'
+#' @return A data frame with 30 financial fields
+#' @importFrom dplyr filter
+#' @importFrom dplyr select
+#' @importFrom dplyr rowwise
+#' @importFrom dplyr mutate
+#' @importFrom tidyr spread
+#' @export
+
+get_all_financial_data <- function(xml_root) {
+    financial_data <- irs_fields %>% filter(category == "financial") %>%
+        select(package_variable) %>%
+        rowwise() %>% mutate(val = get_single_value_990(xml_root,package_variable)) %>%
+        spread(package_variable, val)
+
+    return(financial_data)
+}
+
 
 #' Get concrete information from Schedule R
 #'

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Filter null grant information — filter_null_grant_info • MapAgora</title>
+<title>Get concrete information from 990 forms — get_single_value_990 • MapAgora</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="Filter null grant information — filter_null_grant_info" />
-<meta property="og:description" content="Filter null grant information" />
+<meta property="og:title" content="Get concrete information from 990 forms — get_single_value_990" />
+<meta property="og:description" content="Get concrete information from 990 forms" />
 
 
 
@@ -129,29 +129,33 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Filter null grant information</h1>
-    <small class="dont-index">Source: <a href='https://github.com/snfagora/MapAgora/blob/master/R/org_classify_populate_grantmaking.r'><code>R/org_classify_populate_grantmaking.r</code></a></small>
-    <div class="hidden name"><code>filter_null_grant_info.Rd</code></div>
+    <h1>Get concrete information from 990 forms</h1>
+    <small class="dont-index">Source: <a href='https://github.com/snfagora/MapAgora/blob/master/R/org_classify_description_texs.R'><code>R/org_classify_description_texs.R</code></a></small>
+    <div class="hidden name"><code>get_single_value_990.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Filter null grant information</p>
+    <p>Get concrete information from 990 forms</p>
     </div>
 
-    <pre class="usage"><span class='fu'>filter_null_grant_info</span><span class='op'>(</span><span class='va'>variable</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>get_single_value_990</span><span class='op'>(</span><span class='va'>xml_root</span>, <span class='va'>irs_variable</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>variable</th>
-      <td><p>A particular field in 990 forms</p></td>
+      <th>xml_root</th>
+      <td><p>An XML root element associated with a particular organization</p></td>
+    </tr>
+    <tr>
+      <th>irs_variable</th>
+      <td><p>A type of concrete information. It should correspond to a package_variable in the package's irs_fields table</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>The function either returns the numeric financial information or 0 (in the case of NULL).</p>
+    <p>Depending on the type parameter, the function returns the value of the 990 form for the given variable or else NA.</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

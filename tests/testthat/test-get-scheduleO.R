@@ -1,5 +1,5 @@
 library(testthat)
-library(ParseIRS990)
+library(MapAgora)
 
 context("Check whether parsing ScheduleO works. The default year is 2019.")
 

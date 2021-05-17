@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Filter null grant information — filter_null_grant_info • MapAgora</title>
+<title>Data fields available from IRS 990 forms — irs_fields • MapAgora</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,9 @@
 
 
 
-<meta property="og:title" content="Filter null grant information — filter_null_grant_info" />
-<meta property="og:description" content="Filter null grant information" />
+<meta property="og:title" content="Data fields available from IRS 990 forms — irs_fields" />
+<meta property="og:description" content="A dataset containing the variable names, associated Form 990 XML locations, Form 990 actual locations, and info
+for retrievable 990 Fields" />
 
 
 
@@ -129,29 +130,34 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Filter null grant information</h1>
-    <small class="dont-index">Source: <a href='https://github.com/snfagora/MapAgora/blob/master/R/org_classify_populate_grantmaking.r'><code>R/org_classify_populate_grantmaking.r</code></a></small>
-    <div class="hidden name"><code>filter_null_grant_info.Rd</code></div>
+    <h1>Data fields available from IRS 990 forms</h1>
+    <small class="dont-index">Source: <a href='https://github.com/snfagora/MapAgora/blob/master/R/org_classify_description_texs.R'><code>R/org_classify_description_texs.R</code></a></small>
+    <div class="hidden name"><code>irs_fields.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Filter null grant information</p>
+    <p>A dataset containing the variable names, associated Form 990 XML locations, Form 990 actual locations, and info
+for retrievable 990 Fields</p>
     </div>
 
-    <pre class="usage"><span class='fu'>filter_null_grant_info</span><span class='op'>(</span><span class='va'>variable</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='va'>irs_fields</span></pre>
 
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-    <table class="ref-arguments">
-    <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>variable</th>
-      <td><p>A particular field in 990 forms</p></td>
-    </tr>
-    </table>
 
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
 
-    <p>The function either returns the numeric financial information or 0 (in the case of NULL).</p>
+    <p>A data frame with 32 rows and 9 variables:</p><dl>
+<dt>package_variable</dt><dd><p>name to use in this package to retrieve the field</p></dd>
+<dt>category</dt><dd><p>a top-level variable the variable belongs to</p></dd>
+<dt>subcategory</dt><dd><p>a subcategory the variable belongs to</p></dd>
+<dt>XML_990</dt><dd><p>the XML location for the parsed 990 form</p></dd>
+<dt>Form_990</dt><dd><p>the Part and Line number of the form location for this XML</p></dd>
+<dt>XML_990EZ</dt><dd><p>the XML location for the parsed 990 form</p></dd>
+<dt>Form_990EZ</dt><dd><p>the Part and Line number of the form location for this XML</p></dd>
+<dt>XML_990PF</dt><dd><p>the XML location for the parsed 990 form</p></dd>
+<dt>Form_990PF</dt><dd><p>the Part and Line number of the form location for this XML</p></dd>
+
+</dl>
+
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
