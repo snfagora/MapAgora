@@ -15,7 +15,7 @@ affiliations:
    index: 1
  - name: PhD Candidate, Department of Political Science, University of California, Berkeley
    index: 2
-date: "`r Sys.Date()`"
+date: May 2021
 bibliography: paper.bib
 
 ---
@@ -52,7 +52,7 @@ devtools::install_github("snfagora/MapAgora")
 
 **MapAgora** has been designed with several key principles in mind.
 
-_Principle 1_. **User-First**. Most data about nonprofit organizations exist in specialized, technical structures. IRS filings, for instance, can be made on three different versions of the same form (i.e., Form 990, 990-EZ, and 990-N, for more information, see this [IRS guideline](https://www.irs.gov/instructions/i990)) depending on the organization's gross income and total assets. We develop the functions in this package, focusing on the kind of variables that a user would want to extract from the IRS data source. In other words, the functions do not assume that users need to understand the underlying data structures and their documents. If users would like to know about an organization's revenue, knowing the target field is sufficient.  
+_Principle 1_. **User-First**. Most data about nonprofit organizations exist in specialized, technical structures. IRS filings, for instance, can be made on three different versions of the same form (i.e., Form 990, 990-EZ, and 990-N, for more information, see this [IRS guideline](https://www.irs.gov/instructions/i990)) depending on the organization's gross income and total assets. We develop the functions in this package, focusing on the kind of variables that a user would want to extract from the IRS data source. In other words, the functions do not assume that users understand the underlying data structures and their documents. If users would like to know about an organization's revenue, knowing the target field is sufficient.  
 
 _Principle 2_. **Connectivity**. Part of the motivation of this package is the data about nonprofits stem from multiple sources. The package aims to make both extracting and linking data from these different sources easy and fast. As such, the package is suitable to build a relational database based on these diverse data sources. 
 
