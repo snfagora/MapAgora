@@ -404,10 +404,8 @@ get_value_990 <- function(xml_root, type =
 #' @export
 
 get_single_value_990 <- function(xml_root, irs_variable) {
-
     xml_plucked <- xml_root %>%
         pluck(2) # pick the second element on the list
-
     filing_type <- get_filing_type_990(xml_root) # need form type to know where to look or text
 
     xml_field <- irs_fields %>% filter(package_variable == irs_variable) %>% select(glue("XML_{filing_type}"))
