@@ -60,6 +60,6 @@ _Principle 3_. **Modularity**. We acknowledge that researchers and practitioners
 
 # Acknowledgements
 
-We acknowledge support from the SNF Agora Institute and P3 Lab at the Johns Hopkins University.
+We acknowledge financial and administrative support from the SNF Agora Institute and P3 Lab at the Johns Hopkins University.
 
 # References

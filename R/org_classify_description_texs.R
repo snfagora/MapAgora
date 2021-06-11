@@ -52,18 +52,24 @@ import_idx <- function(year){
 
 #' Get the Amazon Web Server URL associated with a particular Employment Identification Numbers
 #'
-#' @param ein An Employment Identification Numbers
+#' @param ein An Employment Identification Numbers (EIN)
 #' @param form An IRS document form. The default is NULL. There are three other options: "990", "990PF", "990EZ"
 #' @param year A year in which a form was filed. The default IRS year is 2019.
+#' @param tax_period A tax period (year-month). The default tax period is 2019.
 #' @param move_global Whether moving the XML file, which contains the 990 forms filed in a particular year, to the user's global environment. The default value is TRUE.
+#' @param multiple_tax_period This is only applied to the case when an EIN is associated with multiple tax periods. If you want to extract the latest tax period's latest submission, set this argument to FALSE. If you want to extract the latest submission from the multiple tax periods, set this argument to TRUE.
 #'
-#' @return If successful, the function returns the Amazon Web Server URL associated with a particular Employment Identification Numbers.
+#' @return If a single tax period was identified, the function returns the Amazon Web Server URL associated with a particular Employment Identification Numbers. If multiple tax periods were identified, the function returns either a vector that only includes the URL (multiple_tax_period= FALSE) or a dataframe that includes the URL as well as related tax periods (multiple_tax_period = TRUE).
+#' @importFrom dplyr group_by
 #' @importFrom dplyr filter
 #' @importFrom dplyr select
+#' @importFrom dplyr mutate
+#' @importFrom dplyr arrange
+#' @importFrom dplyr desc
 #' @importFrom glue glue
 #' @export
 
-get_aws_url <- function(ein, year = 2019, form = NULL, move_global = TRUE) {
+get_aws_url <- function(ein, year = 2019, tax_period = 2019, form = NULL, move_global = TRUE, multiple_tax_period = FALSE) {
 
     message(glue("The IRS filing year is {year}."))
 
@@ -93,31 +99,75 @@ get_aws_url <- function(ein, year = 2019, form = NULL, move_global = TRUE) {
     if (is.null(form)) {
 
         obj_id <- idx %>%
-            filter(EIN == ein) %>%
-            select(ObjectId)
+            filter(EIN == ein)
 
     } else {
 
         obj_id <- idx %>%
             filter(FormType == form) %>%
-            filter(EIN == ein) %>%
-            select(ObjectId)
+            filter(EIN == ein)
 
     }
 
-    # Glue search parameter and the rest of the URL together
+    df <- obj_id %>%
+        select(ObjectId, TaxPeriod, SubmittedOn)
 
-    # This tax report was amended
-    if (nrow(obj_id == 2)) {
+    # One tax period
 
-        # glue("http://s3.amazonaws.com/irs-form-990/{obj_id[1,]}_public.xml") # Pre-amended report
+    n_tp <- length(unique(df$TaxPeriod))
 
-        glue("http://s3.amazonaws.com/irs-form-990/{obj_id[2,]}_public.xml") # Post-amended IRS report
+    if (n_tp >= 2) {message(glue("Multiple tax periods are found."))}
+
+    if (n_tp == 1) {
+
+        # Filter tax period
+        df %>%
+            mutate(TaxPeriod_ch = as.character(TaxPeriod)) %>%
+            filter(str_detect(TaxPeriod_ch, as.character(tax_period))) # tax_period is a new argument
+
+        # Select the latest submitted one
+        out <- df %>%
+            dplyr::arrange(desc(SubmittedOn)) %>%
+            dplyr::slice(1)
+
+        # Glue search parameter and the rest of the URL together
+        return(glue("http://s3.amazonaws.com/irs-form-990/{out$ObjectId}_public.xml"))
+
     }
 
-    # This tax report was not amended
-    if (nrow(obj_id == 1)) {
-        glue("http://s3.amazonaws.com/irs-form-990/{obj_id[1,]}_public.xml")
+    # Multiple tax periods
+
+    if (n_tp > 1) {
+
+        # Multiple outputs: The latest submission from each tax period
+
+        if (multiple_tax_period == TRUE) {
+
+            source <- df %>%
+                group_by(TaxPeriod) %>%
+                dplyr::arrange(desc(SubmittedOn)) %>%
+                dplyr::top_n(1)
+
+            url <- glue("http://s3.amazonaws.com/irs-form-990/{source$ObjectId}_public.xml")
+
+            out <- data.frame(TaxPeriod = unique(source$TaxPeriod),
+                              URL = url)
+
+            return(out)
+
+        } else {
+
+            # Single output: The latest submission from the latest tax period
+
+            out <- df %>%
+                dplyr::arrange(desc(SubmittedOn), desc(TaxPeriod)) %>%
+                dplyr::slice(1)
+
+            return(glue("http://s3.amazonaws.com/irs-form-990/{out$ObjectId}_public.xml"))
+
+        }
+
+
     }
 
 }
@@ -328,7 +378,7 @@ get_filing_type_990 <- function(xml_root) {
     xml_plucked <- xml_root %>%
         pluck(1) # pick the second element on the list
 
-    filing_type <- xml_plucked %>% getNodeSet("//ReturnTypeCd") %>% map_chr(xmlValue)
+    filing_type <- xml_plucked %>% getNodeSet("//ReturnType | //ReturnTypeCd") %>% map_chr(xmlValue)
     if (filing_type != "990EZ" & filing_type != "990PF") {
         filing_type <- "990" #standardize other names to 990
     }
