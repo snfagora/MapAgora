@@ -57,6 +57,7 @@ _Principle 1_. **User-First**. Much of the data about nonprofit organizations ex
 _Principle 2_. **Linkable Outputs**. Part of the motivation of this package is that data about nonprofits stems from multiple sources. At the same time, studying organizations requires being able to unify those different data sets and so we have sought here to build outputs that can be relationally linked between different sources. 
 
 _Principle 3_. **Modularity**. Different researchers sudying different problems will require access to different elements of these data sources. Rather than requiring each user to build complete data sets we sought to build functions that allow users to extract the specific data they need for their organizations of interest. 
+
 # Acknowledgements
 
 We acknowledge support from the SNF Agora Institue and P3 Lab at the Johns Hopkins University. 
