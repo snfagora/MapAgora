@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MapAgora</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.3</span>
       </span>
     </div>
 
@@ -138,18 +138,29 @@
     <p>Get the Amazon Web Server URL associated with a particular Employment Identification Numbers</p>
     </div>
 
-    <pre class="usage"><span class='fu'>get_aws_url</span><span class='op'>(</span><span class='va'>ein</span>, year <span class='op'>=</span> <span class='fl'>2019</span>, form <span class='op'>=</span> <span class='cn'>NULL</span>, move_global <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>get_aws_url</span><span class='op'>(</span>
+  <span class='va'>ein</span>,
+  year <span class='op'>=</span> <span class='fl'>2019</span>,
+  tax_period <span class='op'>=</span> <span class='fl'>2019</span>,
+  form <span class='op'>=</span> <span class='cn'>NULL</span>,
+  move_global <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  multiple_tax_period <span class='op'>=</span> <span class='cn'>FALSE</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>ein</th>
-      <td><p>An Employment Identification Numbers</p></td>
+      <td><p>An Employment Identification Numbers (EIN)</p></td>
     </tr>
     <tr>
       <th>year</th>
       <td><p>A year in which a form was filed. The default IRS year is 2019.</p></td>
+    </tr>
+    <tr>
+      <th>tax_period</th>
+      <td><p>A tax period (year-month). The default tax period is 2019.</p></td>
     </tr>
     <tr>
       <th>form</th>
@@ -159,11 +170,15 @@
       <th>move_global</th>
       <td><p>Whether moving the XML file, which contains the 990 forms filed in a particular year, to the user's global environment. The default value is TRUE.</p></td>
     </tr>
+    <tr>
+      <th>multiple_tax_period</th>
+      <td><p>This is only applied to the case when an EIN is associated with multiple tax periods. If you want to extract the latest tax period's latest submission, set this argument to FALSE. If you want to extract the latest submission from the multiple tax periods, set this argument to TRUE.</p></td>
+    </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>If successful, the function returns the Amazon Web Server URL associated with a particular Employment Identification Numbers.</p>
+    <p>If a single tax period was identified, the function returns the Amazon Web Server URL associated with a particular Employment Identification Numbers. If multiple tax periods were identified, the function returns either a vector that only includes the URL (multiple_tax_period= FALSE) or a dataframe that includes the URL as well as related tax periods (multiple_tax_period = TRUE).</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
