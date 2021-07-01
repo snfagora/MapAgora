@@ -1,5 +1,5 @@
 library(testthat)
-library(ParseIRS990)
+library(MapAgora)
 
 context("Standaridze an organization's website address (URL)")
 
