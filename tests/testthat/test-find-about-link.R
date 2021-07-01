@@ -1,8 +1,6 @@
 library(testthat)
 library(MapAgora)
 
-context("Find about links")
-
 test_that("Check relative link cases", {
 
     expect_equal(find_about_link("http://www.saltpondscoalition.org/"), "http://www.saltpondscoalition.org/AboutUs.html")

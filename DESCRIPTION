@@ -1,6 +1,6 @@
 Package: MapAgora
 Title: Getting tax reports, websites, and social media handles related to nonprofit organizations in the United States 
-Version: 0.0.3
+Version: 0.0.4
 Authors@R: 
     c(person(given = "Milan",
            family = "de Vries",
