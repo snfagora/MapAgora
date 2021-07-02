@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Find Twitter handles either using a name (default strategy) or an website of an organization. — find_all • MapAgora</title>
+<title>Index table of all available IRS filings — irs_index • MapAgora</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,10 @@
 
 
 
-<meta property="og:title" content="Find Twitter handles either using a name (default strategy) or an website of an organization. — find_all" />
-<meta property="og:description" content="Find Twitter handles either using a name (default strategy) or an website of an organization." />
+<meta property="og:title" content="Index table of all available IRS filings — irs_index" />
+<meta property="og:description" content="A dataset containing the AWS server information for available IRS filings. This index
+is refactored from the AWS index files. The AWS files are arranged by year the IRS
+processed the file. These are arranged by tax year." />
 
 
 
@@ -129,33 +131,40 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Find Twitter handles either using a name (default strategy) or an website of an organization.</h1>
-    <small class="dont-index">Source: <a href='https://github.com/snfagora/MapAgora/blob/master/R/get_twitter_handles.r'><code>R/get_twitter_handles.r</code></a></small>
-    <div class="hidden name"><code>find_all.Rd</code></div>
+    <h1>Index table of all available IRS filings</h1>
+    <small class="dont-index">Source: <a href='https://github.com/snfagora/MapAgora/blob/master/R/org_classify_description_texts.R'><code>R/org_classify_description_texts.R</code></a></small>
+    <div class="hidden name"><code>irs_index.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Find Twitter handles either using a name (default strategy) or an website of an organization.</p>
+    <p>A dataset containing the AWS server information for available IRS filings. This index
+is refactored from the AWS index files. The AWS files are arranged by year the IRS
+processed the file. These are arranged by tax year.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>find_all</span><span class='op'>(</span><span class='va'>org_name</span>, website_address <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='va'>irs_index</span></pre>
 
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-    <table class="ref-arguments">
-    <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>org_name</th>
-      <td><p>A name of an organization</p></td>
-    </tr>
-    <tr>
-      <th>website_address</th>
-      <td><p>An website of an organization. The default value is NULL.</p></td>
-    </tr>
-    </table>
 
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
 
-    <p>If no website information were provided, the function returns the Twitter handles discovered via Bing API. If website information were provided, the function returns a dataframe that contains Twitter handles discovered by Bing API ("Bing" column), the website ("Website" column), and the intersection of the two search results ("Intersection" column).</p>
+    <p>A data frame with 3235913 rows and 14 variables:</p><dl>
+<dt>EIN</dt><dd><p>IRS Employer Identification Number</p></dd>
+<dt>TaxPeriod</dt><dd><p>Corresponds to YYYMM of the tax period end date</p></dd>
+<dt>DLN</dt><dd><p>Download Number</p></dd>
+<dt>FormType</dt><dd><p>Version of the 990 Form filed</p></dd>
+<dt>URL</dt><dd><p>location on the AWS server of the XML parsed filing</p></dd>
+<dt>SubmittedOn</dt><dd><p>Submission date</p></dd>
+<dt>ObjectId</dt><dd><p>id of the filing on the server</p></dd>
+<dt>OrganizationName</dt><dd><p>name of organization</p></dd>
+<dt>LastUpdated</dt><dd><p>date last updated</p></dd>
+<dt>IRS_year</dt><dd><p>Calendar year the IRS processed the filing. Corresponds to AWS index year.</p></dd>
+<dt>TaxPeriodBeginDt</dt><dd><p>Start of the filings tax period</p></dd>
+<dt>TaxPeriodEndDt</dt><dd><p>End of the filings tax period</p></dd>
+<dt>Tax_Year</dt><dd><p>Year of the tax filing</p></dd>
+<dt>ReturnTs</dt><dd><p>timestamp of the tax return</p></dd>
+
+</dl>
+
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MapAgora</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.4</span>
       </span>
     </div>
 
@@ -130,7 +130,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Get the name of the organization associated with a particular Employment Identification Numbers</h1>
-    <small class="dont-index">Source: <a href='https://github.com/snfagora/MapAgora/blob/master/R/org_classify_description_texs.R'><code>R/org_classify_description_texs.R</code></a></small>
+    <small class="dont-index">Source: <a href='https://github.com/snfagora/MapAgora/blob/master/R/org_classify_description_texts.R'><code>R/org_classify_description_texts.R</code></a></small>
     <div class="hidden name"><code>get_organization_name_990.Rd</code></div>
     </div>
 
@@ -138,15 +138,11 @@
     <p>Get the name of the organization associated with a particular Employment Identification Numbers</p>
     </div>
 
-    <pre class="usage"><span class='fu'>get_organization_name_990</span><span class='op'>(</span><span class='va'>idx_year</span>, <span class='va'>ein</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>get_organization_name_990</span><span class='op'>(</span><span class='va'>ein</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>idx_year</th>
-      <td><p>A XML file it contains the 990 forms filed in a particular year. An outcome of import_idx() function.</p></td>
-    </tr>
     <tr>
       <th>ein</th>
       <td><p>An Employment Identification Numbers</p></td>

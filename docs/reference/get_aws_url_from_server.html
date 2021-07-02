@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Find Twitter handles either using a name (default strategy) or an website of an organization. — find_all • MapAgora</title>
+<title>Get the Amazon Web Server URL associated with a particular Employment Identification Numbers — get_aws_url_from_server • MapAgora</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="Find Twitter handles either using a name (default strategy) or an website of an organization. — find_all" />
-<meta property="og:description" content="Find Twitter handles either using a name (default strategy) or an website of an organization." />
+<meta property="og:title" content="Get the Amazon Web Server URL associated with a particular Employment Identification Numbers — get_aws_url_from_server" />
+<meta property="og:description" content="Get the Amazon Web Server URL associated with a particular Employment Identification Numbers" />
 
 
 
@@ -129,33 +129,49 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Find Twitter handles either using a name (default strategy) or an website of an organization.</h1>
-    <small class="dont-index">Source: <a href='https://github.com/snfagora/MapAgora/blob/master/R/get_twitter_handles.r'><code>R/get_twitter_handles.r</code></a></small>
-    <div class="hidden name"><code>find_all.Rd</code></div>
+    <h1>Get the Amazon Web Server URL associated with a particular Employment Identification Numbers</h1>
+    <small class="dont-index">Source: <a href='https://github.com/snfagora/MapAgora/blob/master/R/org_classify_description_texts.R'><code>R/org_classify_description_texts.R</code></a></small>
+    <div class="hidden name"><code>get_aws_url_from_server.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Find Twitter handles either using a name (default strategy) or an website of an organization.</p>
+    <p>Get the Amazon Web Server URL associated with a particular Employment Identification Numbers</p>
     </div>
 
-    <pre class="usage"><span class='fu'>find_all</span><span class='op'>(</span><span class='va'>org_name</span>, website_address <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>get_aws_url_from_server</span><span class='op'>(</span><span class='va'>ein</span>, year <span class='op'>=</span> <span class='fl'>2019</span>, form <span class='op'>=</span> <span class='cn'>NULL</span>, move_global <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>org_name</th>
-      <td><p>A name of an organization</p></td>
+      <th>ein</th>
+      <td><p>An Employment Identification Numbers (EIN)</p></td>
     </tr>
     <tr>
-      <th>website_address</th>
-      <td><p>An website of an organization. The default value is NULL.</p></td>
+      <th>year</th>
+      <td><p>A year in which a form was filed. The default IRS year is 2019.</p></td>
+    </tr>
+    <tr>
+      <th>form</th>
+      <td><p>An IRS document form. The default is NULL. There are three other options: "990", "990PF", "990EZ"</p></td>
+    </tr>
+    <tr>
+      <th>move_global</th>
+      <td><p>Whether moving the XML file, which contains the 990 forms filed in a particular year, to the user's global environment. The default value is TRUE.</p></td>
+    </tr>
+    <tr>
+      <th>tax_period</th>
+      <td><p>A tax period (year-month). The default tax period is 2019.</p></td>
+    </tr>
+    <tr>
+      <th>multiple_tax_period</th>
+      <td><p>This is only applied to the case when an EIN is associated with multiple tax periods. If you want to extract the latest tax period's latest submission, set this argument to FALSE. If you want to extract the latest submission from the multiple tax periods, set this argument to TRUE.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>If no website information were provided, the function returns the Twitter handles discovered via Bing API. If website information were provided, the function returns a dataframe that contains Twitter handles discovered by Bing API ("Bing" column), the website ("Website" column), and the intersection of the two search results ("Intersection" column).</p>
+    <p>If a single tax period was identified, the function returns the Amazon Web Server URL associated with a particular Employment Identification Numbers. If multiple tax periods were identified, the function returns either a vector that only includes the URL (multiple_tax_period= FALSE) or a dataframe that includes the URL as well as related tax periods (multiple_tax_period = TRUE).</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
