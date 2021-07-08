@@ -17,33 +17,34 @@ BugReports: https://github.com/snfagora/MapAgora/issues
 License: MIT + file LICENSE
 Encoding: UTF-8
 Imports: 
-  rvest, 
-  jsonlite, 
-  stringr, 
-  tibble, 
-  tidyr, 
-  readr, 
-  dplyr (>= 1.0.6), 
-  purrr, 
-  furrr, 
-  here, 
-  glue, 
-  rex, 
-  urltools, 
-  magrittr, 
-  htm2txt,
-  xml2, 
-  textclean, 
-  httr, 
-  XML
+    rvest,
+    jsonlite,
+    stringr,
+    stringi,
+    tibble,
+    tidyr,
+    readr,
+    dplyr (>= 1.0.6),
+    purrr,
+    furrr,
+    here,
+    glue,
+    rex,
+    urltools,
+    magrittr,
+    htm2txt,
+    xml2,
+    textclean,
+    httr,
+    XML,
+    rmarkdown
 LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.1
 Suggests: 
     testthat (>= 3.0.0),
-    spelling,
     knitr,
-    rmarkdown
+    markdown
 Language: en-US
 Config/testthat/edition: 3
 Depends: 

@@ -1,8 +1,8 @@
 ---
-title: "getting-websites"
+title: "aboutpages"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{getting-websites}
+  %\VignetteIndexEntry{aboutpages}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -14,6 +14,39 @@ knitr::opts_chunk$set(
 )
 ```
 
-```{r setup}
+```{r eval = FALSE}
+if (!require(devtools)) install.packages("devtools")
+
+devtools::install_github("snfagora/MapAgora")
 library(MapAgora)
+```
+
+The vignette provides a quick tutorial on how to utilize websites (about pages).
+
+## Introduction
+
+Civic organizations are critical facilitators of citizen participation in democracy. Yet, information about their activities is sparse and non-systematized. To improve tracking organizational activity, we developed code to extract the text that organizations use to describe themselves on their websites. 
+
+## Find About Pages
+
+The most common place to find informative text about organizations in on the group's home page and on their about pages. These about pages often contain information about the group's mission, notable activities, and history. 
+
+There is no set way in which websites need to be structured but a number of common patterns predominate. Our strategy is to extract all links from the organization's home page. Then we first look for either links containing the string "about" or links containing the string "who". If we fail to find those we also try a number of common patterns directly. 
+
+Websites can have multiple about pages, often nested under a common heading. To extract the complete about page text from the site we first identify all about pages for a website.
+
+```{r, eval=FALSE}
+## find this site's about pages
+about_pages <- extract_about_links("http://www.ibew567.com")
+```
+
+## Extract About Text
+
+Websites typically contain a great deal of code not directly displayed to the user. In addition, displayed text often includes menus, headers, footers, or other small text snippets. A key downstream research application of the website data we are extracting involved Natural Language Processin (NLP). Doing NLP on the raw, uncleaned website text is likely to be of low quality. 
+
+Our approach to extracting salient text from pages is to filter out text that is not in sentences of at least a certain threshold. In addition, when extracting text from multiple pages, we look for shared header and footer language that we remove not to duplicate these in a shared corups. In extracting about page data, we also include the text of the homepage. 
+
+```{r, eval=FALSE}
+## find the combined text of about pages and home page
+org_web_text <- get_all_texts("http://www.ibew567.com")
 ```
