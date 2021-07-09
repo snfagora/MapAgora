@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MapAgora</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.5</span>
       </span>
     </div>
 
@@ -101,7 +101,7 @@
       <a href="../articles/getting-social-media-handles.html">getting-social-media-handles</a>
     </li>
     <li>
-      <a href="../articles/getting-websites.html">getting-websites</a>
+      <a href="../articles/getting-websites.html">aboutpages</a>
     </li>
   </ul>
 </li>
@@ -138,7 +138,14 @@
     <p>Get the Amazon Web Server URL associated with a particular Employment Identification Numbers</p>
     </div>
 
-    <pre class="usage"><span class='fu'>get_aws_url_from_server</span><span class='op'>(</span><span class='va'>ein</span>, year <span class='op'>=</span> <span class='fl'>2019</span>, form <span class='op'>=</span> <span class='cn'>NULL</span>, move_global <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>get_aws_url_from_server</span><span class='op'>(</span>
+  <span class='va'>ein</span>,
+  year <span class='op'>=</span> <span class='fl'>2019</span>,
+  form <span class='op'>=</span> <span class='cn'>NULL</span>,
+  move_global <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  tax_period <span class='op'>=</span> <span class='fl'>2019</span>,
+  multiple_tax_period <span class='op'>=</span> <span class='cn'>FALSE</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -165,7 +172,7 @@
     </tr>
     <tr>
       <th>multiple_tax_period</th>
-      <td><p>This is only applied to the case when an EIN is associated with multiple tax periods. If you want to extract the latest tax period's latest submission, set this argument to FALSE. If you want to extract the latest submission from the multiple tax periods, set this argument to TRUE.</p></td>
+      <td><p>This is only applied to the case when an EIN is associated with multiple tax periods. If you want to extract the latest tax period's latest submission, set this argument to FALSE. If you want to extract the latest submission from the multiple tax periods, set this argument to TRUE. The default value is FALSE.</p></td>
     </tr>
     </table>
 

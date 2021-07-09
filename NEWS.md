@@ -1,10 +1,14 @@
+# MapAgora 0.0.5. 
+
+* Provided the vignettes. 
+
 # MapAgora 0.0.4.
 
 * Provided the IRS data index.
 
 # MapAgora 0.0.3. 
 
-* Fixed EIN-TAX PERIOD-related problems from the IRS data.
+* Fixed TAX PERIOD-related problems from the IRS data.
 
 # MapAgora 0.0.2. 
 

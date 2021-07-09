@@ -4,7 +4,14 @@
 \alias{get_aws_url_from_server}
 \title{Get the Amazon Web Server URL associated with a particular Employment Identification Numbers}
 \usage{
-get_aws_url_from_server(ein, year = 2019, form = NULL, move_global = TRUE)
+get_aws_url_from_server(
+  ein,
+  year = 2019,
+  form = NULL,
+  move_global = TRUE,
+  tax_period = 2019,
+  multiple_tax_period = FALSE
+)
 }
 \arguments{
 \item{ein}{An Employment Identification Numbers (EIN)}
@@ -17,7 +24,7 @@ get_aws_url_from_server(ein, year = 2019, form = NULL, move_global = TRUE)
 
 \item{tax_period}{A tax period (year-month). The default tax period is 2019.}
 
-\item{multiple_tax_period}{This is only applied to the case when an EIN is associated with multiple tax periods. If you want to extract the latest tax period's latest submission, set this argument to FALSE. If you want to extract the latest submission from the multiple tax periods, set this argument to TRUE.}
+\item{multiple_tax_period}{This is only applied to the case when an EIN is associated with multiple tax periods. If you want to extract the latest tax period's latest submission, set this argument to FALSE. If you want to extract the latest submission from the multiple tax periods, set this argument to TRUE. The default value is FALSE.}
 }
 \value{
 If a single tax period was identified, the function returns the Amazon Web Server URL associated with a particular Employment Identification Numbers. If multiple tax periods were identified, the function returns either a vector that only includes the URL (multiple_tax_period= FALSE) or a dataframe that includes the URL as well as related tax periods (multiple_tax_period = TRUE).

@@ -21,7 +21,9 @@ devtools::install_github("snfagora/MapAgora")
 library(MapAgora)
 ```
 
-This vignette provides a quick tutorial on how to utilize IRS data.
+## IRS filings
+
+IRS data provide comprehensive demographic and financial information on civic organizations.
 
 ### Load the IRS index
 
@@ -32,24 +34,22 @@ To begin, load the IRS index for a selected year.
 idx_2018 <- import_idx(2018)
 ```
 
-### Get the AWS url for the filing of interest
+### Get the AWS URL for the filing of interest
 
-Digitized 990 data are available as XML files in an Amazon Web Server (AWS) repository. The yearly index file organizes these files. The year, in this case, refers to the year that the IRS processed the file. For example, all of the files in the 2018 index were processed in 2018. The tax filing itself can be from any previous date. This makes it challenging to locate a specific filing for a given organization and given year. 
+Digitized 990 data are available as XML files in an Amazon Web Server (AWS) repository. The yearly index file organizes these files. The year, in this case, refers to the year the IRS processed the file. For example, all the files in the 2018 index were processed in 2018. However, the tax filing itself can be from any previous date. This discrepancy makes it challenging to locate a specific filing for a given organization and year.
 
-To remedy this, we have rebuilt a comprehensive index file for this package. This index, included in the package, contains the additional fields `TaxPeriodBeginDt,` `TaxPeriodEndDt,` and (importantly) `Tax_Year.` `Tax_Year` refers to the tax year of the 990 form the organization submitted. (Whereas `IRS_Year` refers to the year the IRS processed the submission into digitized form.) Note that organizations can choose to adhere to a calendar year or a fiscal year. `TaxPeriodBeginDt` and `TaxPeriodEndDt` refer to the beginning and end dates of that filing's year.
+To remedy this, we rebuilt a comprehensive index file for this package. This index, included in the package, contains the additional fields `TaxPeriodBeginDt,` `TaxPeriodEndDt,` and (importantly) `Tax_Year.` `Tax_Year` refers to the tax year of the 990 form the organization submitted, but `IRS_Year` refers to the year the IRS converted the submission into digitized form. Note that organizations can choose to adhere to either a calendar or a fiscal year. `TaxPeriodBeginDt` and `TaxPeriodEndDt` refer to the beginning and end dates of that filing's year.
 
 The location of a given digitized filing can be found with the `get_aws_url` function. This function returns the location of the XML file in the AWS repository.
 
 ```{r eval = FALSE}
 # this organization's 2018 990 filing can be found here
 aws_url <- get_aws_url("061553389", 2018)
-
-aws_url
 ```
 
 ### Get the XML file for a given AWS URL
 
-To parse fields from filings, first load an XML file of interest. Note that this function calls `get_aws_url,` so there is no need to find the URL location yourself. `get_990` will be the first step for most uses of this package.
+To parse fields from filings, first load an XML file of interest. Note that because this function calls `get_aws_url()`, there is no need to find the URL location. The first step for most uses of this package is `get_990()`.
 
 ```{r eval = FALSE}
 ## load an XML for this organization's 2018 filing.
@@ -57,19 +57,15 @@ xml_root <- get_990("221405099", year = 2018)
 
 ## see name of this organization
 organization_name <- get_organization_name_990("221405099")
-
-organization_name
 ```
 
 ### Get a specific field from a filing
 
-Non-profit organizations can file different versions of the 990 Form, depending on their specific status. Knowledge of the specific form type is not required to extract values with this package, but you can see the form type of a given form with:
+Nonprofit organizations can file different versions of the 990 form depending on their specific status. Knowledge of the specific form type is not required to extract values with this package, but the type of a given form can be seen with the following:
 
 ```{r eval = FALSE}
 ## see form type of a filing
 filing_type <- get_filing_type_990(xml_root)
-
-filing_type
 ```
 
 Available parsed fields can be seen in the `irs_fields` table. The `package_variable` column lists the variable names to be used in functions. Other columns show both the XML path and the physical form location for that variable. These variables are grouped by category and subcategory.
@@ -80,22 +76,18 @@ names(irs_fields)
 
 ## get total revenue for this org
 revenue_total <- get_single_value_990(xml_root, "revenue_total")
-
-revenue_total
 ```
 
 ### See related entities
 
-Organizations report related entities on Form 990 Schedule R. The EINs of related organizations can be found with `get_scheduleR.` 
+Organizations report related entities on Form 990 Schedule R. The EINs of related organizations can be found with `get_scheduleR()`.
 
 ```{r eval = FALSE}
-## see related EINs for a given EIN and given tax year filing. 
+## see related EINs for a given EIN and given tax year filing.
 related_eins <- get_scheduleR("061553389", 2018)
-
-related_eins
 ```
 
-This function returns multiple values if multiple related organizations are reported and will indicate if no related organizations were reported. 
+This function returns multiple values if multiple related organizations are reported and indicates if no related organizations are reported.
 
 ### Extract mission and description texts
 
@@ -104,13 +96,9 @@ Organizations report descriptive information about their primary mission and mai
 ```{r eval = FALSE}
 # mission statement
 mission_desc <- get_value_990(xml_root, "mission_desc")
-
-mission_desc
 ```
 
 ```{r eval = FALSE}
 # program description
 program_desc <- get_value_990(xml_root, "program_desc")
-
-program_desc
 ```
