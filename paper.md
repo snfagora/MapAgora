@@ -6,6 +6,7 @@ tags:
   - data analysis
 authors:
   - name: Milan de Vries
+  - orcid: 0000-0001-7363-8089
     affiliation: 1
   - name: Jae Yeon Kim
     orcid: 0000-0002-6533-7910
@@ -49,6 +50,7 @@ devtools::install_github("snfagora/MapAgora")
 | [National Center for Charitable Statistics](https://nccs.urban.org/) | Urban Institute | IRS | No | Yes |
 | [Nonprofit Data Search](http://www.opensecrets.org/dark-money//explore-our-reports) | OpenSecrets | IRS | No | Yes |
 | [Nonprofit Explorer](https://projects.propublica.org/nonprofits/) | ProPublica | IRS | No | Yes |
+| [990 XML Reader] (https://github.com/jsfenfen/990-xml-reader) | Jacob Fenton / ProPublica | IRS | No | Yes |
 | [open990](https://www.open990.org/contact/) | Applied Nonprofit Research | IRS | No | Yes |
 | [Open Data for Nonprofit Research](https://lecy.github.io/Open-Data-for-Nonprofit-Research/) | Jesse Lecy (Arizona State University) and Nathan Grasse (Carleton University) | IRS | No | Yes |
 | **MapAgora** | Milan de Vries and Jae Yeon Kim (SNF Agora Institute, Johns Hopkins University) | IRS, websites, social media posts | No | Yes |
