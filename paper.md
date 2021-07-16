@@ -1,5 +1,5 @@
 ---
-title: 'MapAgora: Collecting U.S. Nonprofit Organization Data based on Government, Website, and Social Media Data Sources'
+title: 'MapAgora: R Package for Collecting U.S. Nonprofit Organization Data'
 tags:
   - R package
   - nonprofit organizations
@@ -13,7 +13,7 @@ authors:
 affiliations:
  - name: Associate Research Scholar, SNF Agora Institute, Johns Hopkins University
    index: 1
- - name: PhD Candidate, Department of Political Science, University of California, Berkeley
+ - name: Assistant Research Scholar, SNF Agora Institute, Johns Hopkins University
    index: 2
 date: June 2021
 bibliography: paper.bib

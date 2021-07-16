@@ -1,5 +1,5 @@
 Package: MapAgora
-Title: Getting tax reports, websites, and social media handles related to nonprofit organizations in the United States 
+Title: R package for collecting U.S. nonprofit organization data 
 Version: 0.0.5
 Authors@R: 
     c(person(given = "Milan",
