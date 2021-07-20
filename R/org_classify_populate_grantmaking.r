@@ -1,9 +1,9 @@
-#' Extract financial information from 990 forms 
+#' Extract financial information from 990 forms
 #'
-#' @param xml_plucked A content element of the 990 XML file   
-#' @param variable A particular field in 990 forms 
-#' 
-#' @return If successful, the function returns the selected financial information from a 990 form in XML format (numeric data type). 
+#' @param xml_plucked A content element of the 990 XML file
+#' @param variable A particular field in 990 forms
+#'
+#' @return If successful, the function returns the selected financial information from a 990 form in XML format (numeric data type).
 #' @importFrom XML getNodeSet
 #' @importFrom XML xmlValue
 #' @importFrom readr parse_number
@@ -18,13 +18,13 @@ extract_financial_info <- function(xml_plucked, variable){
 
 }
 
-#' Get financial details from 990 forms 
+#' Get financial details from 990 forms
 #'
 #' @param xml_root An XML root element associated with a particular organization
-#' 
+#'
 #' @return If successful, the function returns a dataframe that contains information on an organization's "revenue," "assets," "liabilities," and "expenses."
-#' @importFrom purrr pluck 
-#' @importFrom tibble tibble 
+#' @importFrom purrr pluck
+#' @importFrom tibble tibble
 #' @export
 
 get_financial_details_990 <- function(xml_root){
@@ -33,16 +33,20 @@ get_financial_details_990 <- function(xml_root){
     pluck(2) # pick the second element on the list
 
   # Current year revenue
-  revenue <- xml_plucked %>% extract_financial_info("//CYTotalRevenueAmt")
+  revenue <- xml_plucked %>%
+    extract_financial_info("//CYTotalRevenueAmt")
 
   # Assets
-  assets <- xml_plucked %>% extract_financial_info("//TotalAssetsEOYAmt")
+  assets <- xml_plucked %>%
+    extract_financial_info("//TotalAssetsEOYAmt")
 
   # Liabilities
-  liabilities <- xml_plucked %>% extract_financial_info("//TotalLiabilitiesEOYAmt")
+  liabilities <- xml_plucked %>%
+    extract_financial_info("//TotalLiabilitiesEOYAmt")
 
   # Current year expenses
-  expenses <- xml_plucked %>% extract_financial_info("//CYTotalExpensesAmt")
+  expenses <- xml_plucked %>%
+    extract_financial_info("//CYTotalExpensesAmt")
 
   financing <- tibble("Revenue" = revenue,
                       "Assets" = assets,
@@ -52,13 +56,13 @@ get_financial_details_990 <- function(xml_root){
   return(financing)
 }
 
-#' Get financial details from 990 EZ forms 
+#' Get financial details from 990 EZ forms
 #'
 #' @param xml_root An XML root element associated with a particular organization
-#' 
+#'
 #' @return If successful, the function returns a dataframe that contains information on an organizatino's "revenue," "assets," "liabilities," and "expenses."
-#' @importFrom purrr pluck 
-#' @importFrom tibble tibble 
+#' @importFrom purrr pluck
+#' @importFrom tibble tibble
 #' @export
 
 get_financial_details_990ez <- function(xml_root){
@@ -67,16 +71,20 @@ get_financial_details_990ez <- function(xml_root){
     pluck(2) # pick the second element on the list
 
   # Current year revenue
-  revenue <- xml_plucked %>% extract_financial_info("//TotalRevenueAmt")
+  revenue <- xml_plucked %>%
+    extract_financial_info("//TotalRevenueAmt")
 
   # Assets
-  assets <- xml_plucked %>% extract_financial_info("//Form990TotalAssetsGrp/EOYAmt")
+  assets <- xml_plucked %>%
+    extract_financial_info("//Form990TotalAssetsGrp/EOYAmt")
 
   # Liabilities
-  liabilities <- xml_plucked %>% extract_financial_info("//SumOfTotalLiabilitiesGrp/EOYAmt")
+  liabilities <- xml_plucked %>%
+    extract_financial_info("//SumOfTotalLiabilitiesGrp/EOYAmt")
 
   # Current year expenses
-  expenses <- xml_plucked %>% extract_financial_info("//TotalExpensesAmt")
+  expenses <- xml_plucked %>%
+    extract_financial_info("//TotalExpensesAmt")
 
   financing <- tibble("Revenue" = revenue,
                       "Assets" = assets,
@@ -86,12 +94,12 @@ get_financial_details_990ez <- function(xml_root){
   return(financing)
 }
 
-#' Check for grant-making activity from 990 forms 
+#' Check for grant-making activity from 990 forms
 #'
 #' @param xml_root An XML root element associated with a particular organization
-#' 
+#'
 #' @return The function either returns the information on grant-making activity (numeric) or states that "This organization did not file ScheduleI."
-#' @importFrom purrr pluck 
+#' @importFrom purrr pluck
 #' @importFrom XML getNodeSet
 #' @importFrom XML xmlSize
 #' @export
@@ -118,12 +126,12 @@ check_for_grantmaking_activity_990 <- function(xml_root) {
 
 }
 
-#' Filter null grant information 
+#' Filter null grant information
 #'
-#' @param variable A particular field in 990 forms 
-#' 
-#' @return The function either returns the numeric financial information or 0 (in the case of NULL). 
-#' @importFrom furrr future_map 
+#' @param variable A particular field in 990 forms
+#'
+#' @return The function either returns the numeric financial information or 0 (in the case of NULL).
+#' @importFrom furrr future_map
 #' @importFrom purrr reduce
 #' @export
 
@@ -142,12 +150,12 @@ filter_null_grant_info <- function(variable){
 
 }
 
-#' Standardize 990 flag 
+#' Standardize 990 flag
 #'
-#' @param flag_value A value associated with 990 flag 
-#' 
-#' @return The function makes the flag_value either 1 (flag_value == "true") or 0 (other cases plus when length(flag_value) == 0). 
-#' @importFrom furrr future_map 
+#' @param flag_value A value associated with 990 flag
+#'
+#' @return The function makes the flag_value either 1 (flag_value == "true") or 0 (other cases plus when length(flag_value) == 0).
+#' @importFrom furrr future_map
 #' @importFrom purrr reduce
 #' @export
 
@@ -160,13 +168,13 @@ standardize_990_flag <- function(flag_value) {
   return(flag_value)
 }
 
-#' Get grant-making details from 990 forms 
+#' Get grant-making details from 990 forms
 #'
 #' @param xml_root An XML root element associated with a particular organization
-#' 
-#' @return If successful, the function returns a dataframe of six columns that contains information the amount of various grants the organization received. If such information were absent in the data, then these columns would contain only NA values. 
+#'
+#' @return If successful, the function returns a dataframe of six columns that contains information the amount of various grants the organization received. If such information were absent in the data, then these columns would contain only NA values.
 #' @importFrom XML getNodeSet
-#' @importFrom furrr future_map 
+#' @importFrom furrr future_map
 #' @importFrom tibble tibble
 #' @export
 

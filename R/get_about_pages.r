@@ -7,8 +7,12 @@
 #' @export
 
 if_not_about <- function(href) {
-  if ((TRUE %in% (href %>% tolower() %>% str_detect("about|who"))) &
-    (any(href %>% tolower() %>% str_detect("about|who") == TRUE))) {
+  if ((TRUE %in% (href %>%
+                  tolower() %>%
+                  str_detect("about|who"))) &
+    (any(href %>%
+         tolower() %>%
+         str_detect("about|who") == TRUE))) {
     return(href)
   } else {
     return(NA)
@@ -196,7 +200,8 @@ extract_about_links <- function(base_url, timeout_thres = 10) {
 
       if (suffix %>% str_detect("\\.")) {
         # Going up to the host level
-        base_url <- base_url %>% str_replace(paste0(suffix, "$"), "")
+        base_url <- base_url %>%
+          str_replace(paste0(suffix, "$"), "")
       }
 
       if (!grepl("/$", base_url)) {
@@ -370,7 +375,8 @@ get_about_page_content <- function(base_url) {
 get_all_texts <- function(org_url) {
   safe_parse_by_length <- possibly(parse_by_length, otherwise = NA)
 
-  x <- extract_about_links(org_url) %>% mutate(base_url = org_url)
+  x <- extract_about_links(org_url) %>%
+    mutate(base_url = org_url)
   x <- rbind(x, data.frame(base_url = org_url, url = org_url)) # add homepage as well
   x <- x %>%
     rowwise() %>%

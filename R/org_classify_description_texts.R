@@ -21,7 +21,8 @@ import_idx <- function(year){
     url_vars <- glue("https://s3.amazonaws.com/irs-form-990/index_{year}.json")
 
     # select url and import data
-    assign(glue("idx_{year}"), fromJSON(url_vars)[[1]] %>% mutate(IRS_year = year))
+    assign(glue("idx_{year}"), fromJSON(url_vars)[[1]] %>%
+             mutate(IRS_year = year))
 
     out <- get(glue("idx_{year}"))
 
@@ -342,7 +343,9 @@ standardize_url <- function(raw_website){
   )
 
   # Lower case and remove whitespace
-  raw_website <- raw_website %>% tolower() %>% trimws()
+  raw_website <- raw_website %>%
+    tolower() %>%
+    trimws()
 
   # Standardize NAs
   na_tested <- replace(raw_website, raw_website %in% c("na", "n/a", "none"), NA)
@@ -447,7 +450,10 @@ get_filing_type_990 <- function(xml_root) {
   xml_plucked <- xml_root %>%
     pluck(1) # pick the second element on the list
 
-  filing_type <- xml_plucked %>% getNodeSet("//ReturnType | //ReturnTypeCd") %>% map_chr(xmlValue)
+  filing_type <- xml_plucked %>%
+    getNodeSet("//ReturnType | //ReturnTypeCd") %>%
+    map_chr(xmlValue)
+
   if (filing_type != "990EZ" & filing_type != "990PF") {
     filing_type <- "990" #standardize other names to 990
   }
@@ -481,26 +487,39 @@ get_value_990 <- function(xml_root, type =
 
   # Outcomes
   if (type == "website") {
-    website <- xml_plucked %>% getNodeSet("//WebsiteAddressTxt") %>% map_chr(xmlValue)
+
+    website <- xml_plucked %>%
+      getNodeSet("//WebsiteAddressTxt") %>%
+      map_chr(xmlValue)
+
     return(ifnotNA(website) %>% standardize_url)
+
   }
 
   if (type == "mission_desc") {
     if (filing_type == "990EZ") {
-      mission_desc <- xml_plucked %>% getNodeSet("//PrimaryExemptPurposeTxt") %>% map_chr(xmlValue)
+      mission_desc <- xml_plucked %>%
+        getNodeSet("//PrimaryExemptPurposeTxt") %>%
+        map_chr(xmlValue)
     } else {
-      mission_desc <- xml_plucked %>% getNodeSet("//MissionDesc") %>% map_chr(xmlValue)
+      mission_desc <- xml_plucked %>%
+        getNodeSet("//MissionDesc") %>%
+        map_chr(xmlValue)
     }
     return(ifnotNA(mission_desc))
   }
 
   if (type == "program_desc") {
     if (filing_type == "990EZ") {
-      program_desc <- xml_plucked %>% getNodeSet("//DescriptionProgramSrvcAccomTxt") %>% map_chr(xmlValue) %>%
-      clean_program_desc(text_length_threshold)
+      program_desc <- xml_plucked %>%
+        getNodeSet("//DescriptionProgramSrvcAccomTxt") %>%
+        map_chr(xmlValue) %>%
+        clean_program_desc(text_length_threshold)
     } else {
-      program_desc <- xml_plucked %>% getNodeSet("//Desc") %>% future_map_chr(xmlValue) %>%
-      clean_program_desc(text_length_threshold)
+      program_desc <- xml_plucked %>%
+        getNodeSet("//Desc") %>%
+        future_map_chr(xmlValue) %>%
+        clean_program_desc(text_length_threshold)
     }
     return(ifnotNA(program_desc))
   }
@@ -527,18 +546,25 @@ get_single_value_990 <- function(xml_root, irs_variable) {
     pluck(2) # pick the second element on the list
   filing_type <- get_filing_type_990(xml_root) # need form type to know where to look or text
 
-  xml_field <- irs_fields %>% filter(package_variable == irs_variable) %>% select(glue("XML_{filing_type}"))
+  xml_field <- irs_fields %>%
+    filter(package_variable == irs_variable) %>%
+    select(glue("XML_{filing_type}"))
 
   if (is.na(xml_field)) {
     return(NA)
   }
 
   if (str_detect(xml_field,"<br>")) {
-    subfields <- tibble(xml_field = str_split(xml_field,"<br>")[[1]]) %>% rowwise() %>%
-      mutate(value = ifnotNA(xml_plucked %>% getNodeSet(xml_field) %>% map_chr(xmlValue)))
+    subfields <- tibble(xml_field = str_split(xml_field,"<br>")[[1]]) %>%
+      rowwise() %>%
+      mutate(value = ifnotNA(xml_plucked %>%
+                               getNodeSet(xml_field) %>%
+                               map_chr(xmlValue)))
     form_value <- sum(as.numeric(subfields$value),na.rm = T)
   } else {
-    form_value <- xml_plucked %>% getNodeSet(xml_field) %>% map_chr(xmlValue)
+    form_value <- xml_plucked %>%
+      getNodeSet(xml_field) %>%
+      map_chr(xmlValue)
   }
   return(ifnotNA(form_value))
 }
@@ -556,9 +582,11 @@ get_single_value_990 <- function(xml_root, irs_variable) {
 #' @export
 
 get_all_financial_data <- function(xml_root) {
-  financial_data <- irs_fields %>% filter(category == "financial") %>%
+  financial_data <- irs_fields %>%
+    filter(category == "financial") %>%
     select(package_variable) %>%
-    rowwise() %>% mutate(val = get_single_value_990(xml_root,package_variable)) %>%
+    rowwise() %>%
+    mutate(val = get_single_value_990(xml_root,package_variable)) %>%
     spread(package_variable, val)
 
   return(financial_data)
