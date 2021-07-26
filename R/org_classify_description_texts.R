@@ -57,7 +57,6 @@ import_idx <- function(year){
 #' }
 "irs_index"
 
-
 #' Data fields available from IRS 990 forms
 #'
 #' A dataset containing the variable names, associated Form 990 XML locations, Form 990 actual locations, and info
@@ -76,7 +75,6 @@ import_idx <- function(year){
 #'   \item{Form_990PF}{the Part and Line number of the form location for this XML}
 #' }
 "irs_fields"
-
 
 #' Get the Amazon Web Server URL associated with a particular Employment Identification Numbers
 #'
@@ -101,7 +99,6 @@ get_aws_url <- function(ein, year = 2019) {
     filter(EIN == ein, Tax_Year == year) %>%
     arrange(TaxPeriodEndDt) %>%
     select(ObjectId)
-
 
   # Glue search parameter and the rest of the URL together
 

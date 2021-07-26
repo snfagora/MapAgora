@@ -33,10 +33,12 @@ find_twitter_handle_from_bing <- function(org_name,
     # Response object
     r <- content(resp)
 
-
     # Get the associated URLs
     urls <- r$webPages$value %>%
         map("url")
+
+    # Stop the function because the provided API key is incorrect.
+    if (length(urls) == 0) stop("Check whether API key is correct.")
 
     # GET the Twitter handles
     twitter_handle <- urls[str_detect(urls, "twitter.com")] %>%
