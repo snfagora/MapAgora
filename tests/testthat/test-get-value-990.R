@@ -8,3 +8,11 @@ test_that("MoveOn example check", {
 test_that("Whether indexing works", {
     expect_equal(class(get_aws_url(ein = "311810938", year = 2019))[2], "character")
 })
+
+test_that("Check data availability (IRS)", {
+    expect_equal(ncol(check_data_availability(ein = "311810938", source = "irs")), 3)
+})
+
+test_that("Check data availability (website)", {
+    expect_equal(ncol(check_data_availability(ein = "311810938", source = "website")), 3)
+})
