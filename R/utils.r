@@ -3,7 +3,7 @@
 #' @param ein An Employment Identification Numbers
 #' @param year A year in which a form was filed. The default value is 2019.
 #' @param source The data source. Four options exist: "irs", "website", "twitter", "facebook."
-#' @return A datafram that contains three columns: EIN, its data source and availability. Data availability column is a dummy variable. 1 = data exist. 0 = data don't exist.
+#' @return A datafram that contains four columns: EIN, its data source, availability, and the index year when it became available. Data availability column is a dummy variable. 1 = data exist. 0 = data don't exist.
 #' @export
 #'
 
