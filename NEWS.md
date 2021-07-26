@@ -1,3 +1,7 @@
+# MapAgora 0.0.6.
+
+* Added data availability checking functions.
+
 # MapAgora 0.0.5. 
 
 * Provided the vignettes. 

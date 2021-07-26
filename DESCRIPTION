@@ -1,6 +1,6 @@
 Package: MapAgora
 Title: R package for collecting U.S. nonprofit organization data 
-Version: 0.0.5
+Version: 0.0.6
 Authors@R: 
     c(person(given = "Milan",
            family = "de Vries",
@@ -9,10 +9,10 @@ Authors@R:
       person(given = "Jae Yeon",
            family = "Kim",
            role = c("aut", "cre"),
-           email = "jaeyeonkim@berkeley.edu",
+           email = "jkim638@jhu.edu",
            comment = c(ORCID = "0000-0002-6533-7910")))
 Description: A tool for gettting tax reports, websites, and social media handles related to nonprofit organizations in the United States.
-Maintainer: Jae Yeon Kim <jaeyeonkim@berkeley.edu>
+Maintainer: Jae Yeon Kim <jkim638@jhu.edu>
 BugReports: https://github.com/snfagora/MapAgora/issues
 License: MIT + file LICENSE
 Encoding: UTF-8

@@ -10,9 +10,13 @@ test_that("Whether indexing works", {
 })
 
 test_that("Check data availability (IRS)", {
-    expect_equal(ncol(check_data_availability(ein = "311810938", source = "irs")), 3)
+    expect_equal(ncol(check_data_availability(ein = "311810938", source = "irs")), 4)
 })
 
 test_that("Check data availability (website)", {
-    expect_equal(ncol(check_data_availability(ein = "311810938", source = "website")), 3)
+    expect_equal(ncol(check_data_availability(ein = "311810938", source = "website")), 4)
+})
+
+test_that("Check data availability (all)", {
+    expect_equal(ncol(check_data_all(ein = "311810938")), 4)
 })
