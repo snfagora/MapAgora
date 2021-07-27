@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Check data availability for the individual source — check_data_availability • MapAgora</title>
+<title>Check data availability for IRS and website — check_data_irs_web • MapAgora</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="Check data availability for the individual source — check_data_availability" />
-<meta property="og:description" content="Check data availability for the individual source" />
+<meta property="og:title" content="Check data availability for IRS and website — check_data_irs_web" />
+<meta property="og:description" content="Check data availability for IRS and website" />
 
 
 
@@ -129,20 +129,16 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Check data availability for the individual source</h1>
+    <h1>Check data availability for IRS and website</h1>
     <small class="dont-index">Source: <a href='https://github.com/snfagora/MapAgora/blob/master/R/utils.r'><code>R/utils.r</code></a></small>
-    <div class="hidden name"><code>check_data_availability.Rd</code></div>
+    <div class="hidden name"><code>check_data_irs_web.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Check data availability for the individual source</p>
+    <p>Check data availability for IRS and website</p>
     </div>
 
-    <pre class="usage"><span class='fu'>check_data_availability</span><span class='op'>(</span>
-  <span class='va'>ein</span>,
-  year <span class='op'>=</span> <span class='fl'>2019</span>,
-  source <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"irs"</span>, <span class='st'>"website"</span>, <span class='st'>"social_media"</span><span class='op'>)</span>
-<span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>check_data_irs_web</span><span class='op'>(</span><span class='va'>ein</span>, year <span class='op'>=</span> <span class='fl'>2019</span>, sources <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"irs"</span>, <span class='st'>"website"</span><span class='op'>)</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -156,14 +152,14 @@
       <td><p>A year in which a form was filed. The default value is 2019.</p></td>
     </tr>
     <tr>
-      <th>source</th>
-      <td><p>The data source. Four options exist: "irs", "website", "twitter", "facebook."</p></td>
+      <th>sources</th>
+      <td><p>The data sources. The default value is <code><a href='https://rdrr.io/r/base/c.html'>c("irs", "website")</a></code>.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A datafram that contains four columns: EIN, its data source, availability, and the index year when it became available. Data availability column is a dummy variable. 1 = data exist. 0 = data don't exist.</p>
+    <p>A datafram that contains three columns: EIN, its data source and availability. Data availability column is a dummy variable. 1 = data exist. 0 = data don't exist.</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
