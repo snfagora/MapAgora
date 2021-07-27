@@ -9,7 +9,7 @@
 
 check_data_availability <- function(ein, year = 2019, source = c("irs", "website", "twitter", "facebook")) {
 
-  if (is.null(get_aws_url(ein, year))) {
+  if (source %in% c("irs", "website", "twitter", "facebook") & is.null(get_aws_url(ein, year))) {
 
     out <- data.frame(
       "EIN" = ein,
