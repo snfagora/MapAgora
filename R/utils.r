@@ -9,9 +9,23 @@
 
 check_data_availability <- function(ein, year = 2019, source = c("irs", "website", "social_media")) {
 
-  return <- ifelse(sum(class(get_990(ein)) %in% c("XMLNode")) >= 1, 1, 0)
+  if (is.null(get_aws_url(ein, year))) {
+
+    out <- data.frame(
+      "EIN" = ein,
+      "Source" = source,
+      "Availability" = 0,
+      "Year" = year
+    )
+
+    return(out)
+
+  } else {
 
   if (source == "irs") {
+
+    return <- ifelse(sum(class(get_990(ein, year)) %in% c("XMLNode")) >= 1, 1, 0)
+
     out <- data.frame(
       "EIN" = ein,
       "Source" = source,
@@ -56,6 +70,8 @@ check_data_availability <- function(ein, year = 2019, source = c("irs", "website
   }
 
   return(out)
+
+  }
 
 }
 
