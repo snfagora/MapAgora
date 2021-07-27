@@ -18,7 +18,7 @@ check_data_availability(
 \item{source}{The data source. Four options exist: "irs", "website", "twitter", "facebook."}
 }
 \value{
-A datafram that contains three columns: EIN, its data source and availability. Data availability column is a dummy variable. 1 = data exist. 0 = data don't exist.
+A datafram that contains four columns: EIN, its data source, availability, and the index year when it became available. Data availability column is a dummy variable. 1 = data exist. 0 = data don't exist.
 }
 \description{
 Check data availability for the individual source

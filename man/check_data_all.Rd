@@ -4,14 +4,18 @@
 \alias{check_data_all}
 \title{Check data availability for the combined source}
 \usage{
-check_data_all(ein, year = 2019)
+check_data_all(
+  ein,
+  year = 2019,
+  sources = c("irs", "website", "twitter", "facebook")
+)
 }
 \arguments{
 \item{ein}{An Employment Identification Numbers}
 
 \item{year}{A year in which a form was filed. The default value is 2019.}
 
-\item{source}{The data source. Four options exist: "irs", "website", "twitter", "facebook."}
+\item{sources}{The data sources. The default value is \code{c("irs", "website", "twitter", "facebook")}.}
 }
 \value{
 A datafram that contains three columns: EIN, its data source and availability. Data availability column is a dummy variable. 1 = data exist. 0 = data don't exist.
