@@ -64,14 +64,14 @@ check_data_availability <- function(ein, year = 2019, source = c("irs", "website
 #' @param ein An Employment Identification Numbers
 #' @param year A year in which a form was filed. The default value is 2019.
 #' @param sources The data sources. The default value is `c("irs", "website", "twitter", "facebook")`.
-#' @importFrom furrr future_map_dfr
+#' @importFrom purrr map_dfr
 #' @return A datafram that contains three columns: EIN, its data source and availability. Data availability column is a dummy variable. 1 = data exist. 0 = data don't exist.
 #' @export
 #'
 
 check_data_all <- function(ein, year = 2019, sources = c("irs", "website", "twitter", "facebook")) {
 
-  out <- future_map_dfr(sources, ~check_data_availability(ein, year, .), .progress = TRUE)
+  out <- map_dfr(sources, ~check_data_availability(ein, year, .))
 
   return(out)
 }
