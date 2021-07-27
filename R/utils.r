@@ -9,7 +9,7 @@
 
 check_data_availability <- function(ein, year = 2019, source = c("irs", "website", "social_media")) {
 
-  return <- ifelse(sum(class(get_990("311810938")) %in% c("XMLNode")) >= 1, 1, 0)
+  return <- ifelse(sum(class(get_990(ein)) %in% c("XMLNode")) >= 1, 1, 0)
 
   if (source == "irs") {
     out <- data.frame(
