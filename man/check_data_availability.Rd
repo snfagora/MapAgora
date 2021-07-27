@@ -7,7 +7,7 @@
 check_data_availability(
   ein,
   year = 2019,
-  source = c("irs", "website", "social_media")
+  source = c("irs", "website", "twitter", "facebook")
 )
 }
 \arguments{
