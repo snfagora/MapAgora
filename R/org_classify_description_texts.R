@@ -8,21 +8,19 @@
 #' @importFrom dplyr mutate
 #' @export
 
-import_idx <- function(year){
+import_idx <- function(year) {
 
   # avoid non-numeric year argument
   if (!is.numeric(year)) {
     stop("year argument should be numeric")
-  }
-
-  else {
+  } else {
     # url vector
     ## the value range for the year variable is between 2011 and 2020
     url_vars <- glue("https://s3.amazonaws.com/irs-form-990/index_{year}.json")
 
     # select url and import data
     assign(glue("idx_{year}"), fromJSON(url_vars)[[1]] %>%
-             mutate(IRS_year = year))
+      mutate(IRS_year = year))
 
     out <- get(glue("idx_{year}"))
 
@@ -95,7 +93,7 @@ get_aws_url <- function(ein, year = 2019) {
 
   # Some organizations have two object IDs
 
-   obj_id <- irs_index %>%
+  obj_id <- irs_index %>%
     filter(EIN == ein, Tax_Year == year) %>%
     arrange(TaxPeriodEndDt) %>%
     select(ObjectId)
@@ -113,7 +111,6 @@ get_aws_url <- function(ein, year = 2019) {
   } else {
     glue("http://s3.amazonaws.com/irs-form-990/{obj_id[1,]}_public.xml")
   }
-
 }
 
 
@@ -137,7 +134,6 @@ get_aws_url <- function(ein, year = 2019) {
 #' @export
 
 get_aws_url_from_server <- function(ein, year = 2019, form = NULL, move_global = TRUE, tax_period = 2019, multiple_tax_period = FALSE) {
-
   message(glue("The IRS filing year is {year}."))
 
   # Turn search parameter into character vector
@@ -146,17 +142,11 @@ get_aws_url_from_server <- function(ein, year = 2019, form = NULL, move_global =
   # Some organizations have two object IDs
 
   if (!exists(glue("idx_{year}"))) {
-
     if (move_global == TRUE) {
-
       assign(glue("idx_{year}"), import_idx(year), envir = globalenv()) # The global environment
-
     } else {
-
       assign(glue("idx_{year}"), import_idx(year)) # The default is the current environment
-
-      }
-
+    }
   }
 
   # Some organizations have two object IDs
@@ -164,16 +154,12 @@ get_aws_url_from_server <- function(ein, year = 2019, form = NULL, move_global =
   idx <- get(glue("idx_{year}"))
 
   if (is.null(form)) {
-
     obj_id <- idx %>%
       filter(EIN == ein)
-
   } else {
-
     obj_id <- idx %>%
       filter(FormType == form) %>%
       filter(EIN == ein)
-
   }
 
   df <- obj_id %>%
@@ -183,7 +169,9 @@ get_aws_url_from_server <- function(ein, year = 2019, form = NULL, move_global =
 
   n_tp <- length(unique(df$TaxPeriod))
 
-  if (n_tp >= 2) {message(glue("Multiple tax periods are found."))}
+  if (n_tp >= 2) {
+    message(glue("Multiple tax periods are found."))
+  }
 
   if (n_tp == 1) {
 
@@ -199,7 +187,6 @@ get_aws_url_from_server <- function(ein, year = 2019, form = NULL, move_global =
 
     # Glue search parameter and the rest of the URL together
     return(glue("http://s3.amazonaws.com/irs-form-990/{out$ObjectId}_public.xml"))
-
   }
 
   # Multiple tax periods
@@ -209,7 +196,6 @@ get_aws_url_from_server <- function(ein, year = 2019, form = NULL, move_global =
     # Multiple outputs: The latest submission from each tax period
 
     if (multiple_tax_period == TRUE) {
-
       source <- df %>%
         group_by(TaxPeriod) %>%
         dplyr::arrange(desc(SubmittedOn)) %>%
@@ -217,11 +203,12 @@ get_aws_url_from_server <- function(ein, year = 2019, form = NULL, move_global =
 
       url <- glue("http://s3.amazonaws.com/irs-form-990/{source$ObjectId}_public.xml")
 
-      out <- data.frame(TaxPeriod = unique(source$TaxPeriod),
-                        URL = url)
+      out <- data.frame(
+        TaxPeriod = unique(source$TaxPeriod),
+        URL = url
+      )
 
       return(out)
-
     } else {
 
       # Single output: The latest submission from the latest tax period
@@ -231,12 +218,8 @@ get_aws_url_from_server <- function(ein, year = 2019, form = NULL, move_global =
         dplyr::slice(1)
 
       return(glue("http://s3.amazonaws.com/irs-form-990/{out$ObjectId}_public.xml"))
-
     }
-
-
   }
-
 }
 
 #' Get the XML root element associated with a particular Employment Identification Numbers
@@ -258,7 +241,6 @@ get_990 <- function(ein, year = 2019) {
     xmlRoot()
 
   return(xml_root)
-
 }
 
 #' Get the name of the organization associated with a particular Employment Identification Numbers
@@ -272,7 +254,6 @@ get_990 <- function(ein, year = 2019) {
 #' @export
 
 get_organization_name_990 <- function(ein) {
-
   organization_name <- irs_index %>%
     filter(EIN == ein) %>%
     select(OrganizationName) %>%
@@ -290,14 +271,12 @@ get_organization_name_990 <- function(ein) {
 #' @importFrom dplyr pull
 #' @export
 
-get_foundation_ein <- function(){
-
+get_foundation_ein <- function() {
   foundation_ein <- irs_index %>%
     filter(FormType == "990PF") %>%
     pull(EIN)
 
   return(foundation_ein)
-
 }
 
 #' Standardize the website URL of an organization
@@ -313,7 +292,7 @@ get_foundation_ein <- function(){
 #' @importFrom stringr str_replace_all
 #' @export
 
-standardize_url <- function(raw_website){
+standardize_url <- function(raw_website) {
 
   # valid_cars comes from https://cran.r-project.org/web/packages/rex/vignettes/url_parsing.html
   valid_chars <- rex(except_some_of(".", "/", " ", "-"))
@@ -323,14 +302,16 @@ standardize_url <- function(raw_website){
     # protocol identifier (optional) + //
     group(list("http", maybe("s")) %or% "ftp", "://"),
     # user:pass authentication (optional)
-    maybe(non_spaces,
-          maybe(":", zero_or_more(non_space)),
-          "@"),
-    #host name
+    maybe(
+      non_spaces,
+      maybe(":", zero_or_more(non_space)),
+      "@"
+    ),
+    # host name
     group(zero_or_more(valid_chars, zero_or_more("-")), one_or_more(valid_chars)),
-    #domain name
+    # domain name
     zero_or_more(".", zero_or_more(valid_chars, zero_or_more("-")), one_or_more(valid_chars)),
-    #TLD identifier
+    # TLD identifier
     group(".", valid_chars %>% at_least(2)),
     # server port number (optional)
     maybe(":", digit %>% between(2, 5)),
@@ -347,31 +328,26 @@ standardize_url <- function(raw_website){
   # Standardize NAs
   na_tested <- replace(raw_website, raw_website %in% c("na", "n/a", "none"), NA)
 
-  if (is.na(na_tested) == TRUE) return(NA)
+  if (is.na(na_tested) == TRUE) {
+    return(NA)
+  }
 
   if (is.na(na_tested) == FALSE) {
-
     if (grepl(re, na_tested) == TRUE) {
       return(na_tested)
-    }
-
-    else {
+    } else {
 
       # Standardize more fuzzy cases
       url_fixed <- na_tested %>%
         url_parse()
 
       if (sum(is.na(url_fixed)) == 5) {
-
         out <- url_fixed %>%
           mutate(scheme = "http://") %>%
           glue_data("{scheme}{domain}")
 
         return(out)
-
-      }
-
-      else {
+      } else {
         out <- url_fixed %>%
           mutate(path = str_replace_all(path, "http|/| ", "")) %>%
           mutate(path = replace(path, path %in% c("gmail.com", "hotmail.com"), NA)) %>%
@@ -381,9 +357,7 @@ standardize_url <- function(raw_website){
 
         return(out)
       }
-
     }
-
   }
 }
 
@@ -397,7 +371,6 @@ standardize_url <- function(raw_website){
 #' @export
 
 clean_program_desc <- function(program_desc, text_length_threshold) {
-
   if (length(program_desc) > 0) {
     length_check <- map_int(
       program_desc,
@@ -422,15 +395,11 @@ clean_program_desc <- function(program_desc, text_length_threshold) {
 #' @export
 
 ifnotNA <- function(var) {
-
   if (length(var) != 0) {
-
-    return(var) } else {
-
-      return(NA)
-
-    }
-
+    return(var)
+  } else {
+    return(NA)
+  }
 }
 
 #' Get 990 filing type
@@ -443,7 +412,6 @@ ifnotNA <- function(var) {
 #' @export
 
 get_filing_type_990 <- function(xml_root) {
-
   xml_plucked <- xml_root %>%
     pluck(1) # pick the second element on the list
 
@@ -452,11 +420,10 @@ get_filing_type_990 <- function(xml_root) {
     map_chr(xmlValue)
 
   if (filing_type != "990EZ" & filing_type != "990PF") {
-    filing_type <- "990" #standardize other names to 990
+    filing_type <- "990" # standardize other names to 990
   }
 
   return(ifnotNA(filing_type))
-
 }
 
 #' Get concrete information from 990 forms
@@ -472,11 +439,12 @@ get_filing_type_990 <- function(xml_root) {
 #' @export
 
 get_value_990 <- function(xml_root, type =
-                            c("website",
+                            c(
+                              "website",
                               "mission_desc",
-                              "program_desc"),
+                              "program_desc"
+                            ),
                           text_length_threshold = 50) {
-
   filing_type <- get_filing_type_990(xml_root) # need form type to know where to look or text
 
   xml_plucked <- xml_root %>%
@@ -484,13 +452,11 @@ get_value_990 <- function(xml_root, type =
 
   # Outcomes
   if (type == "website") {
-
     website <- xml_plucked %>%
       getNodeSet("//WebsiteAddressTxt") %>%
       map_chr(xmlValue)
 
-    return(ifnotNA(website) %>% standardize_url)
-
+    return(ifnotNA(website) %>% standardize_url())
   }
 
   if (type == "mission_desc") {
@@ -520,7 +486,6 @@ get_value_990 <- function(xml_root, type =
     }
     return(ifnotNA(program_desc))
   }
-
 }
 
 #' Get concrete information from 990 forms
@@ -551,13 +516,13 @@ get_single_value_990 <- function(xml_root, irs_variable) {
     return(NA)
   }
 
-  if (str_detect(xml_field,"<br>")) {
-    subfields <- tibble(xml_field = str_split(xml_field,"<br>")[[1]]) %>%
+  if (str_detect(xml_field, "<br>")) {
+    subfields <- tibble(xml_field = str_split(xml_field, "<br>")[[1]]) %>%
       rowwise() %>%
       mutate(value = ifnotNA(xml_plucked %>%
-                               getNodeSet(xml_field) %>%
-                               map_chr(xmlValue)))
-    form_value <- sum(as.numeric(subfields$value),na.rm = T)
+        getNodeSet(xml_field) %>%
+        map_chr(xmlValue)))
+    form_value <- sum(as.numeric(subfields$value), na.rm = T)
   } else {
     form_value <- xml_plucked %>%
       getNodeSet(xml_field) %>%
@@ -583,7 +548,7 @@ get_all_financial_data <- function(xml_root) {
     filter(category == "financial") %>%
     select(package_variable) %>%
     rowwise() %>%
-    mutate(val = get_single_value_990(xml_root,package_variable)) %>%
+    mutate(val = get_single_value_990(xml_root, package_variable)) %>%
     spread(package_variable, val)
 
   return(financial_data)
@@ -604,7 +569,6 @@ get_all_financial_data <- function(xml_root) {
 #' @export
 
 get_scheduleR <- function(ein, year = 2019) {
-
   parsed_xml <- get_990(ein, year) %>%
     pluck(2)
 
@@ -645,7 +609,6 @@ get_scheduleR <- function(ein, year = 2019) {
 #' @export
 
 get_scheduleO <- function(ein, year = 2019) {
-
   parsed_xml <- get_990(ein, year) %>%
     pluck(2)
 
@@ -677,7 +640,6 @@ get_scheduleO <- function(ein, year = 2019) {
   }
 
   return(out)
-
 }
 
 #' Get various information about an organization
@@ -729,11 +691,18 @@ example_function_for_single_org <- function(ein, type = c("base", "extended", "u
   )
 
   # Outputs
-  if (type == "base") return(out)
-  if (type == "extended") return(nest_out)
-  if (type == "unnested") return(nest_out %>%
-                                   unnest(ScheduleR) %>%
-                                   unnest(ScheduleO))
-  if (type == "combined") return(out %>% left_join(nest_out))
-
+  if (type == "base") {
+    return(out)
+  }
+  if (type == "extended") {
+    return(nest_out)
+  }
+  if (type == "unnested") {
+    return(nest_out %>%
+      unnest(ScheduleR) %>%
+      unnest(ScheduleO))
+  }
+  if (type == "combined") {
+    return(out %>% left_join(nest_out))
+  }
 }

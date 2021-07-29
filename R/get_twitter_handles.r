@@ -17,36 +17,36 @@
 find_twitter_handle_from_bing <- function(org_name,
                                           bing_search_api_key) {
 
-    # Define search query
-    search_term <- str_replace_all(glue("{org_name} twitter"), " ", "+")
+  # Define search query
+  search_term <- str_replace_all(glue("{org_name} twitter"), " ", "+")
 
-    base_url <- "https://api.cognitive.microsoft.com/bing/v7.0/search"
+  base_url <- "https://api.cognitive.microsoft.com/bing/v7.0/search"
 
-    api_key <- Sys.getenv("bing_search_api_key")
+  api_key <- Sys.getenv("bing_search_api_key")
 
-    # Make a request to Bing Search API (v.7)
-    resp <- GET(
-        url = glue("{base_url}/?q={search_term}"),
-        add_headers("Ocp-Apim-Subscription-Key" = api_key)
-    )
+  # Make a request to Bing Search API (v.7)
+  resp <- GET(
+    url = glue("{base_url}/?q={search_term}"),
+    add_headers("Ocp-Apim-Subscription-Key" = api_key)
+  )
 
-    # Response object
-    r <- content(resp)
+  # Response object
+  r <- content(resp)
 
-    # Get the associated URLs
-    urls <- r$webPages$value %>%
-        map("url")
+  # Get the associated URLs
+  urls <- r$webPages$value %>%
+    map("url")
 
-    # Stop the function because the provided API key is incorrect.
-    if (length(urls) == 0) stop("Check whether API key is correct.")
+  # Stop the function because the provided API key is incorrect.
+  if (length(urls) == 0) stop("Check whether API key is correct.")
 
-    # GET the Twitter handles
-    twitter_handle <- urls[str_detect(urls, "twitter.com")] %>%
-        unlist() %>%
-        str_replace_all("https://twitter.com/", "") %>%
-        tolower()
+  # GET the Twitter handles
+  twitter_handle <- urls[str_detect(urls, "twitter.com")] %>%
+    unlist() %>%
+    str_replace_all("https://twitter.com/", "") %>%
+    tolower()
 
-    return(twitter_handle)
+  return(twitter_handle)
 }
 
 #' Parse Twitter handles from a webpage
@@ -68,73 +68,73 @@ find_twitter_handle_from_bing <- function(org_name,
 
 parse_twitter_handle_from_page <- function(website_address, google_search_results = NULL) {
 
-    # Whether using Google search
-    if (is.null(google_search_results) == TRUE) {
+  # Whether using Google search
+  if (is.null(google_search_results) == TRUE) {
 
-        # Read HTML from website_address
-        pg <- read_html(website_address)
+    # Read HTML from website_address
+    pg <- read_html(website_address)
 
-        response <- GET(website_address, config(ssl_verifypeer = FALSE, timeout = 10,followlocation = TRUE))
+    response <- GET(website_address, config(ssl_verifypeer = FALSE, timeout = 10, followlocation = TRUE))
 
-        possible_read <- possibly(read_html, otherwise = "This URL is broken.")
+    possible_read <- possibly(read_html, otherwise = "This URL is broken.")
 
-        pg <- possible_read(response)
+    pg <- possible_read(response)
+  } else {
+    pg <- google_api_results # Read HTML from Google search results
+  }
 
-    } else {
-        pg <- google_api_results # Read HTML from Google search results
-    }
+  # HTML links
+  hrefs <- pg %>%
+    html_nodes("a") %>%
+    html_attr("href")
 
-    # HTML links
-    hrefs <- pg %>%
-        html_nodes("a") %>%
-        html_attr("href")
+  # Link texts
+  link_texts <- pg %>%
+    html_nodes("a") %>%
+    html_text()
 
-    # Link texts
-    link_texts <- pg %>%
-        html_nodes("a") %>%
-        html_text()
+  # Combined them as a data.frame
+  all_links <- data.frame(
+    href = tolower(hrefs), # lower cases
+    link_text = tolower(link_texts)
+  ) # lower cases
 
-    # Combined them as a data.frame
-    all_links <- data.frame(
-        href = tolower(hrefs), # lower cases
-        link_text = tolower(link_texts)
-    ) # lower cases
+  twitter_handle <- all_links %>%
+    # Find hrefs associated with twitter
+    filter(grepl("twitter.com", href) &
+      !grepl("/status/", href) & # about network connections
+      !grepl("/share\\?", href) & # not the org twitter handle but a post they shared
+      !grepl("intent/tweet\\?", href) & # not the org twitter handle but a post they shared
+      !grepl("twitter.com/wix", href)) %>%
+    # This is the Wix website dev platform
+    # Distinct hrefs
+    distinct(href) %>%
+    pull(href) %>%
+    str_replace_all("https://twitter.com/|http://twitter.com/", "")
 
-    twitter_handle <- all_links %>%
-        # Find hrefs associated with twitter
-        filter(grepl("twitter.com", href) &
-                   !grepl("/status/", href) & # about network connections
-                   !grepl("/share\\?", href) & # not the org twitter handle but a post they shared
-                   !grepl("intent/tweet\\?", href) & # not the org twitter handle but a post they shared
-                   !grepl("twitter.com/wix", href)) %>% # This is the Wix website dev platform
-        # Distinct hrefs
-        distinct(href) %>%
-        pull(href) %>%
-        str_replace_all("https://twitter.com/|http://twitter.com/", "")
+  # Find whether there's no associated Twitter handle
+  twitter_handle <- ifelse(length(twitter_handle) == 0, NA, twitter_handle)
 
-    # Find whether there's no associated Twitter handle
-    twitter_handle <- ifelse(length(twitter_handle) == 0, NA, twitter_handle)
+  if (is.na(twitter_handle) != TRUE) {
 
-    if (is.na(twitter_handle) != TRUE) {
+    # Remove extra stuff
+    ## Separate by a special character then select the substring appears before the special character
+    twitter_handle <- ifelse(str_detect(twitter_handle, "[?]") == TRUE,
+      strsplit(twitter_handle, "?", fixed = TRUE)[[1]][1], twitter_handle
+    )
 
-        # Remove extra stuff
-        ## Separate by a special character then select the substring appears before the special character
-        twitter_handle <- ifelse(str_detect(twitter_handle, "[?]") == TRUE,
-                                 strsplit(twitter_handle, "?", fixed = TRUE)[[1]][1], twitter_handle
-        )
+    # Error patterns
+    error_patterns <- c("#|@|!")
 
-        # Error patterns
-        error_patterns <- c("#|@|!")
+    ## Remove certain first elements of the string vector
+    twitter_handle <- ifelse(str_detect(twitter_handle, error_patterns),
+      gsub("^.", "", twitter_handle), twitter_handle
+    )
 
-        ## Remove certain first elements of the string vector
-        twitter_handle <- ifelse(str_detect(twitter_handle, error_patterns),
-                                 gsub("^.", "", twitter_handle), twitter_handle
-        )
-
-        return(twitter_handle)
-    } else {
-        return(twitter_handle)
-    }
+    return(twitter_handle)
+  } else {
+    return(twitter_handle)
+  }
 }
 
 #' Parse Twitter handles from an organization website
@@ -145,9 +145,9 @@ parse_twitter_handle_from_page <- function(website_address, google_search_result
 #' @export
 
 find_twitter_handle_from_org_page <- function(website_address) {
-    twitter_handle <- parse_twitter_handle_from_page(website_address)
+  twitter_handle <- parse_twitter_handle_from_page(website_address)
 
-    return(twitter_handle)
+  return(twitter_handle)
 }
 
 #' Find Twitter handles either using a name (default strategy) or an website of an organization.
@@ -161,28 +161,26 @@ find_twitter_handle_from_org_page <- function(website_address) {
 
 find_all <- function(org_name, website_address = NULL) {
 
-    # Using Bing Search API (v.7)
-    tw_bing <- find_twitter_handle_from_bing(org_name)
+  # Using Bing Search API (v.7)
+  tw_bing <- find_twitter_handle_from_bing(org_name)
 
-    # Using Organizational Websites
-    if (is.null(website_address) == FALSE) {
-        tw_org <- find_twitter_handle_from_org_page(website_address)
-    } else {
-        tw_org <- NULL
-    }
+  # Using Organizational Websites
+  if (is.null(website_address) == FALSE) {
+    tw_org <- find_twitter_handle_from_org_page(website_address)
+  } else {
+    tw_org <- NULL
+  }
 
-    # Combined output
-    if (is.null(tw_org) == TRUE) {
-        out <- tw_bing
-    }
+  # Combined output
+  if (is.null(tw_org) == TRUE) {
+    out <- tw_bing
+  } else {
+    out <- list(
+      "Bing" = tw_bing,
+      "Website" = tw_org,
+      "Intersection" = reduce(list(tw_bing, tw_org), intersect)
+    )
+  }
 
-    else {
-        out <- list(
-            "Bing" = tw_bing,
-            "Website" = tw_org,
-            "Intersection" = reduce(list(tw_bing, tw_org), intersect)
-        )
-    }
-
-    return(out)
+  return(out)
 }

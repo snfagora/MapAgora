@@ -9,13 +9,11 @@
 #' @importFrom readr parse_number
 #' @export
 
-extract_financial_info <- function(xml_plucked, variable){
-
+extract_financial_info <- function(xml_plucked, variable) {
   xml_plucked %>%
     getNodeSet(variable) %>%
     xmlValue() %>%
     parse_number()
-
 }
 
 #' Get financial details from 990 forms
@@ -27,8 +25,7 @@ extract_financial_info <- function(xml_plucked, variable){
 #' @importFrom tibble tibble
 #' @export
 
-get_financial_details_990 <- function(xml_root){
-
+get_financial_details_990 <- function(xml_root) {
   xml_plucked <- xml_root %>%
     pluck(2) # pick the second element on the list
 
@@ -48,10 +45,12 @@ get_financial_details_990 <- function(xml_root){
   expenses <- xml_plucked %>%
     extract_financial_info("//CYTotalExpensesAmt")
 
-  financing <- tibble("Revenue" = revenue,
-                      "Assets" = assets,
-                      "Liabilities" = liabilities,
-                      "Expenses" = expenses)
+  financing <- tibble(
+    "Revenue" = revenue,
+    "Assets" = assets,
+    "Liabilities" = liabilities,
+    "Expenses" = expenses
+  )
 
   return(financing)
 }
@@ -65,8 +64,7 @@ get_financial_details_990 <- function(xml_root){
 #' @importFrom tibble tibble
 #' @export
 
-get_financial_details_990ez <- function(xml_root){
-
+get_financial_details_990ez <- function(xml_root) {
   xml_plucked <- xml_root %>%
     pluck(2) # pick the second element on the list
 
@@ -86,10 +84,12 @@ get_financial_details_990ez <- function(xml_root){
   expenses <- xml_plucked %>%
     extract_financial_info("//TotalExpensesAmt")
 
-  financing <- tibble("Revenue" = revenue,
-                      "Assets" = assets,
-                      "Liabilities" = liabilities,
-                      "Expenses" = expenses)
+  financing <- tibble(
+    "Revenue" = revenue,
+    "Assets" = assets,
+    "Liabilities" = liabilities,
+    "Expenses" = expenses
+  )
 
   return(financing)
 }
@@ -105,25 +105,22 @@ get_financial_details_990ez <- function(xml_root){
 #' @export
 
 check_for_grantmaking_activity_990 <- function(xml_root) {
-
   xml_plucked <- xml_root %>%
     pluck(2) # pick the second element on the list
 
   if ("IRS990ScheduleI" %in% names(xml_plucked) == TRUE) {
     grantmaking_flag1 <- xml_plucked %>%
-  	  getNodeSet("//IRS990ScheduleI//CashGrantAmt") %>%
+      getNodeSet("//IRS990ScheduleI//CashGrantAmt") %>%
       xmlSize()
 
-  	grantmaking_flag2 <- xml_plucked %>%
-  	  getNodeSet("//TotalGrantOrContriPdDurYrAmt") %>%
-  	  xmlSize()
+    grantmaking_flag2 <- xml_plucked %>%
+      getNodeSet("//TotalGrantOrContriPdDurYrAmt") %>%
+      xmlSize()
 
-  	return(max(grantmaking_flag1, grantmaking_flag2))
-
+    return(max(grantmaking_flag1, grantmaking_flag2))
   } else {
     return(c("This organization did not file ScheduleI."))
-    }
-
+  }
 }
 
 #' Filter null grant information
@@ -135,19 +132,15 @@ check_for_grantmaking_activity_990 <- function(xml_root) {
 #' @importFrom purrr reduce
 #' @export
 
-filter_null_grant_info <- function(variable){
-
+filter_null_grant_info <- function(variable) {
   if (length(variable) != 0) {
-
     variable <- variable %>%
       future_map(xmlValue) %>%
       future_map(as.numeric) %>%
-      reduce(`+`)} else {
-
-        variable <- 0 # I intentionally made the function to return 0 in this case as it's not NA
-
-      }
-
+      reduce(`+`)
+  } else {
+    variable <- 0 # I intentionally made the function to return 0 in this case as it's not NA
+  }
 }
 
 #' Standardize 990 flag
@@ -160,11 +153,14 @@ filter_null_grant_info <- function(variable){
 #' @export
 
 standardize_990_flag <- function(flag_value) {
-  if (length(flag_value) == 0) { flag_value <- 0 }
+  if (length(flag_value) == 0) {
+    flag_value <- 0
+  }
   if (flag_value == "true") {
     flag_value <- 1
   } else {
-    flag_value <- 0}
+    flag_value <- 0
+  }
   return(flag_value)
 }
 
@@ -179,18 +175,16 @@ standardize_990_flag <- function(flag_value) {
 #' @export
 
 get_grantmaking_details_990 <- function(xml_root) {
-
   xml_plucked <- xml_root %>%
     pluck(2) # pick the second element on the list
 
   if ("IRS990ScheduleI" %in% names(xml_plucked) == TRUE) {
-
     grantmaking_total <- xml_plucked %>%
       getNodeSet("//IRS990ScheduleI//CashGrantAmt") %>%
       filter_null_grant_info()
 
     grantmaking_individuals_total <- xml_plucked %>%
-      getNodeSet("//IRS990ScheduleI//GrantsOtherAsstToIndivInUSGrp//CashGrantAmt")  %>%
+      getNodeSet("//IRS990ScheduleI//GrantsOtherAsstToIndivInUSGrp//CashGrantAmt") %>%
       filter_null_grant_info()
 
     grantmaking_individuals_cnt <- xml_plucked %>%
@@ -211,7 +205,9 @@ get_grantmaking_details_990 <- function(xml_root) {
       getNodeSet("//TotalGrantOrContriPdDurYrAmt") %>%
       future_map(xmlValue)
 
-    if (length(other_grantmaking) == 0) { other_grantmaking <- 0 } # For the same reason above, I think that this should be 0 rather than NA. NA (explicit missing value) should indicate missing values.
+    if (length(other_grantmaking) == 0) {
+      other_grantmaking <- 0
+    } # For the same reason above, I think that this should be 0 rather than NA. NA (explicit missing value) should indicate missing values.
 
     grantmaking_details <- tibble(
       grantmaking_total = grantmaking_total,
@@ -224,9 +220,7 @@ get_grantmaking_details_990 <- function(xml_root) {
     )
 
     return(grantmaking_details)
-  }
-
-  else {
+  } else {
     grantmaking_details <- tibble(
       grantmaking_total = NA,
       grantmaking_individuals_total = NA,
@@ -234,9 +228,9 @@ get_grantmaking_details_990 <- function(xml_root) {
       grantmaking_501c3_cnt = NA,
       grantmaking_other_org_cnt = NA,
       grantmaking_individuals_cnt = NA,
-      other_grantmaking = NA)
+      other_grantmaking = NA
+    )
 
     return(grantmaking_details)
   }
-
 }

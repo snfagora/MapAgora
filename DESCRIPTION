@@ -1,7 +1,7 @@
 Package: MapAgora
-Title: R package for collecting U.S. nonprofit organization data 
+Title: R Package for Collecting U.S. Nonprofit Organization Data 
 Version: 0.0.6
-Author: 
+Authors@R: 
     c(person(given = "Milan",
            family = "de Vries",
            role = c("aut"),

@@ -8,9 +8,7 @@
 #'
 
 check_data_availability <- function(ein, year = 2019, source = c("irs", "website", "twitter", "facebook")) {
-
   if (source %in% c("irs", "website", "twitter", "facebook") & is.null(get_aws_url(ein, year))) {
-
     out <- data.frame(
       "EIN" = ein,
       "Source" = source,
@@ -19,60 +17,53 @@ check_data_availability <- function(ein, year = 2019, source = c("irs", "website
     )
 
     return(out)
-
   } else {
+    if (source == "irs") {
+      return <- ifelse(sum(class(get_990(ein, year)) %in% c("XMLNode")) >= 1, 1, 0)
 
-  if (source == "irs") {
-
-    return <- ifelse(sum(class(get_990(ein, year)) %in% c("XMLNode")) >= 1, 1, 0)
-
-    out <- data.frame(
-      "EIN" = ein,
-      "Source" = source,
-      "Availability" = return,
-      "Year" = year
+      out <- data.frame(
+        "EIN" = ein,
+        "Source" = source,
+        "Availability" = return,
+        "Year" = year
       )
+    }
+
+    if (source == "website") {
+      website <- get_value_990(get_990(ein = ein, year), "website")
+
+      out <- data.frame(
+        "EIN" = ein,
+        "Source" = source,
+        "Availability" = ifelse(is.na(website), 0, 1),
+        "Year" = year
+      )
+    }
+
+    if (source == "twitter") {
+      website <- get_value_990(get_990(ein = ein, year), "website")
+
+      out <- data.frame(
+        "EIN" = ein,
+        "Source" = source,
+        "Availability" = ifelse(is.na(website), 0, ifelse(is.na(find_twitter_handle_from_org_page(website)), 0, 1)),
+        "Year" = year
+      )
+    }
+
+    if (source == "facebook") {
+      website <- get_value_990(get_990(ein = ein, year), "website")
+
+      out <- data.frame(
+        "EIN" = ein,
+        "Source" = source,
+        "Availability" = ifelse(is.na(website), 0, ifelse(is.na(find_twitter_handle_from_org_page(website)), 0, 1)),
+        "Year" = year
+      )
+    }
+
+    return(out)
   }
-
-  if (source == "website") {
-
-    website <- get_value_990(get_990(ein = ein, year), "website")
-
-    out <- data.frame(
-      "EIN" = ein,
-      "Source" = source,
-      "Availability" = ifelse(is.na(website), 0, 1),
-      "Year" = year)
-  }
-
-  if (source == "twitter") {
-
-    website <- get_value_990(get_990(ein = ein, year), "website")
-
-    out <- data.frame(
-      "EIN" = ein,
-      "Source" = source,
-      "Availability" = ifelse(is.na(website), 0, ifelse(is.na(find_twitter_handle_from_org_page(website)), 0, 1),
-       "Year" = year))
-
-  }
-
-  if (source == "facebook") {
-
-    website <- get_value_990(get_990(ein = ein, year), "website")
-
-    out <- data.frame(
-      "EIN" = ein,
-      "Source" = source,
-      "Availability" = ifelse(is.na(website), 0, ifelse(is.na(find_twitter_handle_from_org_page(website)), 0, 1)),
-      "Year" = year)
-
-  }
-
-  return(out)
-
-  }
-
 }
 
 #' Check data availability for IRS and website
@@ -86,8 +77,7 @@ check_data_availability <- function(ein, year = 2019, source = c("irs", "website
 #'
 
 check_data_irs_web <- function(ein, year = 2019, sources = c("irs", "website")) {
-
-  out <- map_dfr(sources, ~check_data_availability(ein, year, .))
+  out <- map_dfr(sources, ~ check_data_availability(ein, year, .))
 
   return(out)
 }
