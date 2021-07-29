@@ -1,5 +1,28 @@
+# R project
 .Rproj.user
+
+# R environment
+.Renviron
+
+# History
 .Rhistory
+
+# Session data
 .RData
+
+# User data
 .Ruserdata
+
+# Check files
+..Rcheck/
+
+# Vignettes
+vignettes/*.html
+vignettes/*.pdf
+
+# Cache
+*_cache/
+/cache/
+
+# Doc
 inst/doc
