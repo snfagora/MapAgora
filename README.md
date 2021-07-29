@@ -160,7 +160,7 @@ fb_page <- find_facebook_page_from_org_page("https://moveon.org")
 
 ## Citing this package
 
-To cite `MapAgora`, use:
+To cite **MapAgora**, use:
 
 > De Vries, M and Kim, J. (2021). MapAgora: R package for getting tax reports, websites, and social media handles related to nonprofit organizations in the United States. R package version 0.0.6, https://snfagora.github.io/MapAgora/.
 
