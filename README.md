@@ -171,4 +171,4 @@ To cite **MapAgora**, use:
 
 ## Acknowledgements
 
-We acknowledge support from the SNF Agora Institue and P3 Lab at the Johns Hopkins University. 
+We acknowledge the administrative and financial support from the SNF Agora Institute and P3 Lab at Johns Hopkins University. 
