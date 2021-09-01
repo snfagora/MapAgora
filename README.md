@@ -2,7 +2,6 @@
 # MapAgora
 
 <!-- badges: start -->
-[![R-CMD-check](https://github.com/snfagora/MapAgora/workflows/R-CMD-check/badge.svg)](https://github.com/snfagora/MapAgora/actions)
 [![Project Status: Active – The project has reached a stable, usable
 state and is being actively
 developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
@@ -172,4 +171,4 @@ To cite **MapAgora**, use:
 
 ## Acknowledgements
 
-We acknowledge support from the SNF Agora Institue and P3 Lab at the Johns Hopkins University. 
+We acknowledge the administrative and financial support from the SNF Agora Institute and P3 Lab at Johns Hopkins University. 

@@ -262,6 +262,54 @@ get_organization_name_990 <- function(ein) {
   return(organization_name)
 }
 
+#' Search for the EIN an organization given a name and U.S. state
+#'
+#' @param state_abbrev A two-letter U.S. state abbreviation (e.g., CA). This input should be character.
+#' @param org_name The name of a nonprofit organization. This input should be character.
+#'
+#' @return If successful, the function returns the Employment Identification Number matching the organization name in the given state
+#' @importFrom dplyr filter
+#' @importFrom dplyr select
+#' @importFrom dplyr arrange
+#' @export
+
+org_name_to_ein <- function(state_abbrev, org_name) {
+
+  if (!is.character(state_abbrev)) {
+
+    stop("Error: state_abbrev should be character.")
+
+  }
+
+  if (!is.character(org_name)) {
+
+    stop("Error: org_name should be characer.")
+
+  }
+
+  # require exact match for short names
+  if (nchar(org_name) < 5) {
+    arrange(desc(REVENUE_AMT))
+
+  # allow fuzzy match for longer names
+  } else {
+
+    possible_matches <- eo1 %>%
+      filter(STATE == state_abbrev) %>%
+      filter(agrepl(toupper(org_name), NAME, max.distance = 0.01)) %>%
+      select(NAME, STREET, CITY, STATE, REVENUE_AMT,INCOME_AMT,ASSET_AMT,EIN) %>%
+      arrange(desc(REVENUE_AMT))
+
+  }
+
+  if (nrow(possible_matches) == 0) {
+    ein <- NA
+  } else {
+    ein <- possible_matches$EIN[1]
+  }
+
+  return(ein)
+}
 
 #' Get Employer Identification Numbers (EINs) associated with foundations
 #'
