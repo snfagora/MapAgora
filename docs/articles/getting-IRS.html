@@ -19,6 +19,8 @@
 <![endif]-->
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -31,23 +33,17 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MapAgora</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.6</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.6</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
 <li>
-  <a href="../index.html">
-    <span class="fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
-<li>
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -70,7 +66,7 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/snfagora/MapAgora/">
+  <a href="https://github.com/snfagora/MapAgora/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -85,13 +81,13 @@
 
       
 
-      </header><script src="getting-IRS_files/header-attrs-2.9/header-attrs.js"></script><div class="row">
+      </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>getting-IRS</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/snfagora/MapAgora/blob/master/vignettes/getting-IRS.Rmd"><code>vignettes/getting-IRS.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/snfagora/MapAgora/blob/HEAD/vignettes/getting-IRS.Rmd" class="external-link"><code>vignettes/getting-IRS.Rmd</code></a></small>
       <div class="hidden name"><code>getting-IRS.Rmd</code></div>
 
     </div>
@@ -99,36 +95,57 @@
     
     
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="kw"><a href="https://rdrr.io/r/base/library.html">require</a></span><span class="op">(</span><span class="va"><a href="https://devtools.r-lib.org/">devtools</a></span><span class="op">)</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"devtools"</span><span class="op">)</span>
+<code class="sourceCode R"><span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="https://devtools.r-lib.org/" class="external-link">devtools</a></span><span class="op">)</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"devtools"</span><span class="op">)</span>
 
-<span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org//reference/remote-reexports.html">install_github</a></span><span class="op">(</span><span class="st">"snfagora/MapAgora"</span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">MapAgora</span><span class="op">)</span></code></pre></div>
-<div id="irs-filings" class="section level2">
-<h2 class="hasAnchor">
-<a href="#irs-filings" class="anchor"></a>IRS filings</h2>
-<p>IRS data provide comprehensive demographic and financial information on civic organizations.</p>
-<div id="load-the-irs-index" class="section level3">
-<h3 class="hasAnchor">
-<a href="#load-the-irs-index" class="anchor"></a>Load the IRS index</h3>
+<span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org/reference/remote-reexports.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"snfagora/MapAgora"</span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">MapAgora</span><span class="op">)</span></code></pre></div>
+<div class="section level2">
+<h2 id="irs-filings">IRS filings<a class="anchor" aria-label="anchor" href="#irs-filings"></a>
+</h2>
+<p>IRS data provide comprehensive demographic and financial information
+on civic organizations.</p>
+<div class="section level3">
+<h3 id="load-the-irs-index">Load the IRS index<a class="anchor" aria-label="anchor" href="#load-the-irs-index"></a>
+</h3>
 <p>To begin, load the IRS index for a selected year.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># load 2018 index file from the IRS Amazon Web Server</span>
 <span class="va">idx_2018</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/import_idx.html">import_idx</a></span><span class="op">(</span><span class="fl">2018</span><span class="op">)</span></code></pre></div>
 </div>
-<div id="get-the-aws-url-for-the-filing-of-interest" class="section level3">
-<h3 class="hasAnchor">
-<a href="#get-the-aws-url-for-the-filing-of-interest" class="anchor"></a>Get the AWS URL for the filing of interest</h3>
-<p>Digitized 990 data are available as XML files in an Amazon Web Server (AWS) repository. The yearly index file organizes these files. The year, in this case, refers to the year the IRS processed the file. For example, all the files in the 2018 index were processed in 2018. However, the tax filing itself can be from any previous date. This discrepancy makes it challenging to locate a specific filing for a given organization and year.</p>
-<p>To remedy this, we rebuilt a comprehensive index file for this package. This index, included in the package, contains the additional fields <code>TaxPeriodBeginDt,</code> <code>TaxPeriodEndDt,</code> and (importantly) <code>Tax_Year.</code> <code>Tax_Year</code> refers to the tax year of the 990 form the organization submitted, but <code>IRS_Year</code> refers to the year the IRS converted the submission into digitized form. Note that organizations can choose to adhere to either a calendar or a fiscal year. <code>TaxPeriodBeginDt</code> and <code>TaxPeriodEndDt</code> refer to the beginning and end dates of that filing’s year.</p>
-<p>The location of a given digitized filing can be found with the <code>get_aws_url</code> function. This function returns the location of the XML file in the AWS repository.</p>
+<div class="section level3">
+<h3 id="get-the-aws-url-for-the-filing-of-interest">Get the AWS URL for the filing of interest<a class="anchor" aria-label="anchor" href="#get-the-aws-url-for-the-filing-of-interest"></a>
+</h3>
+<p>Digitized 990 data are available as XML files in an Amazon Web Server
+(AWS) repository. The yearly index file organizes these files. The year,
+in this case, refers to the year the IRS processed the file. For
+example, all the files in the 2018 index were processed in 2018.
+However, the tax filing itself can be from any previous date. This
+discrepancy makes it challenging to locate a specific filing for a given
+organization and year.</p>
+<p>To remedy this, we rebuilt a comprehensive index file for this
+package. This index, included in the package, contains the additional
+fields <code>TaxPeriodBeginDt,</code> <code>TaxPeriodEndDt,</code> and
+(importantly) <code>Tax_Year.</code> <code>Tax_Year</code> refers to the
+tax year of the 990 form the organization submitted, but
+<code>IRS_Year</code> refers to the year the IRS converted the
+submission into digitized form. Note that organizations can choose to
+adhere to either a calendar or a fiscal year.
+<code>TaxPeriodBeginDt</code> and <code>TaxPeriodEndDt</code> refer to
+the beginning and end dates of that filing’s year.</p>
+<p>The location of a given digitized filing can be found with the
+<code>get_aws_url</code> function. This function returns the location of
+the XML file in the AWS repository.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># this organization's 2018 990 filing can be found here</span>
 <span class="va">aws_url</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_aws_url.html">get_aws_url</a></span><span class="op">(</span><span class="st">"061553389"</span>, <span class="fl">2018</span><span class="op">)</span></code></pre></div>
 </div>
-<div id="get-the-xml-file-for-a-given-aws-url" class="section level3">
-<h3 class="hasAnchor">
-<a href="#get-the-xml-file-for-a-given-aws-url" class="anchor"></a>Get the XML file for a given AWS URL</h3>
-<p>To parse fields from filings, first load an XML file of interest. Note that because this function calls <code><a href="../reference/get_aws_url.html">get_aws_url()</a></code>, there is no need to find the URL location. The first step for most uses of this package is <code><a href="../reference/get_990.html">get_990()</a></code>.</p>
+<div class="section level3">
+<h3 id="get-the-xml-file-for-a-given-aws-url">Get the XML file for a given AWS URL<a class="anchor" aria-label="anchor" href="#get-the-xml-file-for-a-given-aws-url"></a>
+</h3>
+<p>To parse fields from filings, first load an XML file of interest.
+Note that because this function calls <code><a href="../reference/get_aws_url.html">get_aws_url()</a></code>, there
+is no need to find the URL location. The first step for most uses of
+this package is <code><a href="../reference/get_990.html">get_990()</a></code>.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">## load an XML for this organization's 2018 filing.</span>
 <span class="va">xml_root</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_990.html">get_990</a></span><span class="op">(</span><span class="st">"221405099"</span>, year <span class="op">=</span> <span class="fl">2018</span><span class="op">)</span>
@@ -136,34 +153,47 @@
 <span class="co">## see name of this organization</span>
 <span class="va">organization_name</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_organization_name_990.html">get_organization_name_990</a></span><span class="op">(</span><span class="st">"221405099"</span><span class="op">)</span></code></pre></div>
 </div>
-<div id="get-a-specific-field-from-a-filing" class="section level3">
-<h3 class="hasAnchor">
-<a href="#get-a-specific-field-from-a-filing" class="anchor"></a>Get a specific field from a filing</h3>
-<p>Nonprofit organizations can file different versions of the 990 form depending on their specific status. Knowledge of the specific form type is not required to extract values with this package, but the type of a given form can be seen with the following:</p>
+<div class="section level3">
+<h3 id="get-a-specific-field-from-a-filing">Get a specific field from a filing<a class="anchor" aria-label="anchor" href="#get-a-specific-field-from-a-filing"></a>
+</h3>
+<p>Nonprofit organizations can file different versions of the 990 form
+depending on their specific status. Knowledge of the specific form type
+is not required to extract values with this package, but the type of a
+given form can be seen with the following:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">## see form type of a filing</span>
 <span class="va">filing_type</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_filing_type_990.html">get_filing_type_990</a></span><span class="op">(</span><span class="va">xml_root</span><span class="op">)</span></code></pre></div>
-<p>Available parsed fields can be seen in the <code>irs_fields</code> table. The <code>package_variable</code> column lists the variable names to be used in functions. Other columns show both the XML path and the physical form location for that variable. These variables are grouped by category and subcategory.</p>
+<p>Available parsed fields can be seen in the <code>irs_fields</code>
+table. The <code>package_variable</code> column lists the variable names
+to be used in functions. Other columns show both the XML path and the
+physical form location for that variable. These variables are grouped by
+category and subcategory.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">## see available variables</span>
-<span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">irs_fields</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">irs_fields</span><span class="op">)</span>
 
 <span class="co">## get total revenue for this org</span>
 <span class="va">revenue_total</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_single_value_990.html">get_single_value_990</a></span><span class="op">(</span><span class="va">xml_root</span>, <span class="st">"revenue_total"</span><span class="op">)</span></code></pre></div>
 </div>
-<div id="see-related-entities" class="section level3">
-<h3 class="hasAnchor">
-<a href="#see-related-entities" class="anchor"></a>See related entities</h3>
-<p>Organizations report related entities on Form 990 Schedule R. The EINs of related organizations can be found with <code><a href="../reference/get_scheduleR.html">get_scheduleR()</a></code>.</p>
+<div class="section level3">
+<h3 id="see-related-entities">See related entities<a class="anchor" aria-label="anchor" href="#see-related-entities"></a>
+</h3>
+<p>Organizations report related entities on Form 990 Schedule R. The
+EINs of related organizations can be found with
+<code><a href="../reference/get_scheduleR.html">get_scheduleR()</a></code>.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">## see related EINs for a given EIN and given tax year filing.</span>
 <span class="va">related_eins</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_scheduleR.html">get_scheduleR</a></span><span class="op">(</span><span class="st">"061553389"</span>, <span class="fl">2018</span><span class="op">)</span></code></pre></div>
-<p>This function returns multiple values if multiple related organizations are reported and indicates if no related organizations are reported.</p>
+<p>This function returns multiple values if multiple related
+organizations are reported and indicates if no related organizations are
+reported.</p>
 </div>
-<div id="extract-mission-and-description-texts" class="section level3">
-<h3 class="hasAnchor">
-<a href="#extract-mission-and-description-texts" class="anchor"></a>Extract mission and description texts</h3>
-<p>Organizations report descriptive information about their primary mission and main activities in 990 filings. The concatenated responses to these fields can be extracted.</p>
+<div class="section level3">
+<h3 id="extract-mission-and-description-texts">Extract mission and description texts<a class="anchor" aria-label="anchor" href="#extract-mission-and-description-texts"></a>
+</h3>
+<p>Organizations report descriptive information about their primary
+mission and main activities in 990 filings. The concatenated responses
+to these fields can be extracted.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># mission statement</span>
 <span class="va">mission_desc</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_value_990.html">get_value_990</a></span><span class="op">(</span><span class="va">xml_root</span>, <span class="st">"mission_desc"</span><span class="op">)</span></code></pre></div>
@@ -185,11 +215,13 @@
 
 
       <footer><div class="copyright">
-  <p>Developed by Milan de Vries, Jae Yeon Kim.</p>
+  <p></p>
+<p>Developed by Milan de Vries, Jae Yeon Kim.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
 </div>
 
       </footer>
@@ -197,6 +229,8 @@
 
   
 
+
+  
 
   </body>
 </html>

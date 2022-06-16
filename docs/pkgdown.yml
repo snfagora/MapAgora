@@ -1,9 +1,9 @@
-pandoc: 2.11.4
-pkgdown: 1.6.1
+pandoc: 2.17.1.1
+pkgdown: 2.0.4
 pkgdown_sha: ~
 articles:
   getting-IRS: getting-IRS.html
   getting-social-media-handles: getting-social-media-handles.html
   getting-websites: getting-websites.html
-last_built: 2021-08-02T23:53Z
+last_built: 2022-06-16T05:44Z
 

@@ -19,6 +19,8 @@
 <![endif]-->
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-home">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -31,23 +33,17 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">MapAgora</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.6</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.6</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
 <li>
-  <a href="index.html">
-    <span class="fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
-<li>
   <a href="reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -70,7 +66,7 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/snfagora/MapAgora/">
+  <a href="https://github.com/snfagora/MapAgora/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -87,40 +83,40 @@
 
       </header><div class="row">
   <div class="contents col-md-9">
-<div id="mapagora" class="section level1">
-<div class="page-header"><h1 class="hasAnchor">
-<a href="#mapagora" class="anchor"></a>MapAgora</h1></div>
+<div class="section level1">
+<div class="page-header"><h1 id="mapagora">MapAgora<a class="anchor" aria-label="anchor" href="#mapagora"></a>
+</h1></div>
 <!-- badges: start -->
 
 <p><strong>MapAgora</strong> is an R package that helps researchers and practitioners to collect the most comprehensive data on nonprofit organizations in the U.S. Nonprofit organizations are vital in understanding civic activities and their economic, political, and social causes and consequences in the U.S. Despite their importance, it is difficult to analyze their characteristics systematically at a large scale because information about these organizations is scattered across different sources, such as their tax reports, websites, and social media posts. <strong>MapAgora</strong> addresses all of these problems. It helps researchers and practitioners systematically collect information on nonprofit organizations in the U.S. based on nonprofit organizations’ tax reports, websites, and social media posts with little technical understanding of the underlying unstructured data formats.</p>
-<div id="install-the-current-development-version-from-github" class="section level2">
-<h2 class="hasAnchor">
-<a href="#install-the-current-development-version-from-github" class="anchor"></a>Install the current development version from GitHub</h2>
+<div class="section level2">
+<h2 id="install-the-current-development-version-from-github">Install the current development version from GitHub<a class="anchor" aria-label="anchor" href="#install-the-current-development-version-from-github"></a>
+</h2>
 <p>The package is available on GitHub and can be installed in the following way:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="kw"><a href="https://rdrr.io/r/base/library.html">require</a></span><span class="op">(</span><span class="st"><a href="https://devtools.r-lib.org/">"devtools"</a></span><span class="op">)</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"devtools"</span><span class="op">)</span>
+<code class="sourceCode R"><span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="st"><a href="https://devtools.r-lib.org/" class="external-link">"devtools"</a></span><span class="op">)</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"devtools"</span><span class="op">)</span>
 
-<span class="fu"><a href="https://devtools.r-lib.org//reference/remote-reexports.html">install_github</a></span><span class="op">(</span><span class="st">"snfagora/MapAgora"</span><span class="op">)</span></code></pre></div>
+<span class="fu"><a href="https://devtools.r-lib.org/reference/remote-reexports.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"snfagora/MapAgora"</span><span class="op">)</span></code></pre></div>
 </div>
-<div id="use-cases" class="section level2">
-<h2 class="hasAnchor">
-<a href="#use-cases" class="anchor"></a>Use cases</h2>
+<div class="section level2">
+<h2 id="use-cases">Use cases<a class="anchor" aria-label="anchor" href="#use-cases"></a>
+</h2>
 <p>These use cases explain the best workflow for using the functions in the package to extract information from a particular data source (IRS/websites/social media posts).</p>
-<div id="irs-filings" class="section level3">
-<h3 class="hasAnchor">
-<a href="#irs-filings" class="anchor"></a>IRS filings</h3>
+<div class="section level3">
+<h3 id="irs-filings">IRS filings<a class="anchor" aria-label="anchor" href="#irs-filings"></a>
+</h3>
 <p>IRS data provide comprehensive demographic and financial information on civic organizations.</p>
-<div id="load-the-irs-index" class="section level4">
-<h4 class="hasAnchor">
-<a href="#load-the-irs-index" class="anchor"></a>Load the IRS index</h4>
+<div class="section level4">
+<h4 id="load-the-irs-index">Load the IRS index<a class="anchor" aria-label="anchor" href="#load-the-irs-index"></a>
+</h4>
 <p>To begin, load the IRS index for a selected year.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># load 2018 index file from the IRS Amazon Web Server</span>
 <span class="va">idx_2018</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/import_idx.html">import_idx</a></span><span class="op">(</span><span class="fl">2018</span><span class="op">)</span></code></pre></div>
 </div>
-<div id="get-the-aws-url-for-the-filing-of-interest" class="section level4">
-<h4 class="hasAnchor">
-<a href="#get-the-aws-url-for-the-filing-of-interest" class="anchor"></a>Get the AWS URL for the filing of interest</h4>
+<div class="section level4">
+<h4 id="get-the-aws-url-for-the-filing-of-interest">Get the AWS URL for the filing of interest<a class="anchor" aria-label="anchor" href="#get-the-aws-url-for-the-filing-of-interest"></a>
+</h4>
 <p>Digitized 990 data are available as XML files in an Amazon Web Server (AWS) repository. The yearly index file organizes these files. The year, in this case, refers to the year the IRS processed the file. For example, all the files in the 2018 index were processed in 2018. However, the tax filing itself can be from any previous date. This discrepancy makes it challenging to locate a specific filing for a given organization and year.</p>
 <p>To remedy this, we rebuilt a comprehensive index file for this package. This index, included in the package, contains the additional fields <code>TaxPeriodBeginDt,</code> <code>TaxPeriodEndDt,</code> and (importantly) <code>Tax_Year.</code> <code>Tax_Year</code> refers to the tax year of the 990 form the organization submitted, but <code>IRS_Year</code> refers to the year the IRS converted the submission into digitized form. Note that organizations can choose to adhere to either a calendar or a fiscal year. <code>TaxPeriodBeginDt</code> and <code>TaxPeriodEndDt</code> refer to the beginning and end dates of that filing’s year.</p>
 <p>The location of a given digitized filing can be found with the <code>get_aws_url</code> function. This function returns the location of the XML file in the AWS repository.</p>
@@ -128,9 +124,9 @@
 <code class="sourceCode R"><span class="co"># this organization's 2018 990 filing can be found here</span>
 <span class="va">aws_url</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/get_aws_url.html">get_aws_url</a></span><span class="op">(</span><span class="st">"061553389"</span>, <span class="fl">2018</span><span class="op">)</span></code></pre></div>
 </div>
-<div id="get-the-xml-file-for-a-given-aws-url" class="section level4">
-<h4 class="hasAnchor">
-<a href="#get-the-xml-file-for-a-given-aws-url" class="anchor"></a>Get the XML file for a given AWS URL</h4>
+<div class="section level4">
+<h4 id="get-the-xml-file-for-a-given-aws-url">Get the XML file for a given AWS URL<a class="anchor" aria-label="anchor" href="#get-the-xml-file-for-a-given-aws-url"></a>
+</h4>
 <p>To parse fields from filings, first load an XML file of interest. Note that because this function calls <code><a href="reference/get_aws_url.html">get_aws_url()</a></code>, there is no need to find the URL location. The first step for most uses of this package is <code><a href="reference/get_990.html">get_990()</a></code>.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">## load an XML for this organization's 2018 filing.</span>
@@ -139,9 +135,9 @@
 <span class="co">## see name of this organization</span>
 <span class="va">organization_name</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/get_organization_name_990.html">get_organization_name_990</a></span><span class="op">(</span><span class="st">"221405099"</span><span class="op">)</span></code></pre></div>
 </div>
-<div id="get-a-specific-field-from-a-filing" class="section level4">
-<h4 class="hasAnchor">
-<a href="#get-a-specific-field-from-a-filing" class="anchor"></a>Get a specific field from a filing</h4>
+<div class="section level4">
+<h4 id="get-a-specific-field-from-a-filing">Get a specific field from a filing<a class="anchor" aria-label="anchor" href="#get-a-specific-field-from-a-filing"></a>
+</h4>
 <p>Nonprofit organizations can file different versions of the 990 form depending on their specific status. Knowledge of the specific form type is not required to extract values with this package, but the type of a given form can be seen with the following:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">## see form type of a filing</span>
@@ -149,23 +145,23 @@
 <p>Available parsed fields can be seen in the <code>irs_fields</code> table. The <code>package_variable</code> column lists the variable names to be used in functions. Other columns show both the XML path and the physical form location for that variable. These variables are grouped by category and subcategory.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">## see available variables</span>
-<span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">irs_fields</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">irs_fields</span><span class="op">)</span>
 
 <span class="co">## get total revenue for this org</span>
 <span class="va">revenue_total</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/get_single_value_990.html">get_single_value_990</a></span><span class="op">(</span><span class="va">xml_root</span>, <span class="st">"revenue_total"</span><span class="op">)</span></code></pre></div>
 </div>
-<div id="see-related-entities" class="section level4">
-<h4 class="hasAnchor">
-<a href="#see-related-entities" class="anchor"></a>See related entities</h4>
+<div class="section level4">
+<h4 id="see-related-entities">See related entities<a class="anchor" aria-label="anchor" href="#see-related-entities"></a>
+</h4>
 <p>Organizations report related entities on Form 990 Schedule R. The EINs of related organizations can be found with <code><a href="reference/get_scheduleR.html">get_scheduleR()</a></code>.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">## see related EINs for a given EIN and given tax year filing.</span>
 <span class="va">related_eins</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/get_scheduleR.html">get_scheduleR</a></span><span class="op">(</span><span class="st">"061553389"</span>, <span class="fl">2018</span><span class="op">)</span></code></pre></div>
 <p>This function returns multiple values if multiple related organizations are reported and indicates if no related organizations are reported.</p>
 </div>
-<div id="extract-mission-and-description-texts" class="section level4">
-<h4 class="hasAnchor">
-<a href="#extract-mission-and-description-texts" class="anchor"></a>Extract mission and description texts</h4>
+<div class="section level4">
+<h4 id="extract-mission-and-description-texts">Extract mission and description texts<a class="anchor" aria-label="anchor" href="#extract-mission-and-description-texts"></a>
+</h4>
 <p>Organizations report descriptive information about their primary mission and main activities in 990 filings. The concatenated responses to these fields can be extracted.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># mission statement</span>
@@ -175,13 +171,13 @@
 <span class="va">program_desc</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/get_value_990.html">get_value_990</a></span><span class="op">(</span><span class="va">xml_root</span>, <span class="st">"program_desc"</span><span class="op">)</span></code></pre></div>
 </div>
 </div>
-<div id="about-pages-from-websites" class="section level3">
-<h3 class="hasAnchor">
-<a href="#about-pages-from-websites" class="anchor"></a>About pages from websites</h3>
+<div class="section level3">
+<h3 id="about-pages-from-websites">About pages from websites<a class="anchor" aria-label="anchor" href="#about-pages-from-websites"></a>
+</h3>
 <p>To help track the information on nonprofits not captured by their tax filings, we developed code to extract the text that organizations use to describe themselves on their websites.</p>
-<div id="find-about-pages" class="section level4">
-<h4 class="hasAnchor">
-<a href="#find-about-pages" class="anchor"></a>Find About Pages</h4>
+<div class="section level4">
+<h4 id="find-about-pages">Find About Pages<a class="anchor" aria-label="anchor" href="#find-about-pages"></a>
+</h4>
 <p>The most common place to find informative text about an organization is on its website, particularly its About Page. The About Page often contains information about the group’s mission, notable activities, and history.</p>
 <p>There is no single standard way to find an About Page, but many common patterns predominate. Our strategy is to begin by extracting all the links from an organization’s home page. Then, we look for links containing the string “about” or “who.” If we fail to find these patterns, we try to identify other less direct common patterns.</p>
 <p>Websites can have multiple About Pages, often nested under a common heading. We first need to identify all About Pages for a selected website.</p>
@@ -189,9 +185,9 @@
 <code class="sourceCode R"><span class="co"># find this site's about pages</span>
 <span class="va">about_pages</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/extract_about_links.html">extract_about_links</a></span><span class="op">(</span><span class="st">"http://www.ibew567.com"</span><span class="op">)</span></code></pre></div>
 </div>
-<div id="extract-about-text" class="section level4">
-<h4 class="hasAnchor">
-<a href="#extract-about-text" class="anchor"></a>Extract About Text</h4>
+<div class="section level4">
+<h4 id="extract-about-text">Extract About Text<a class="anchor" aria-label="anchor" href="#extract-about-text"></a>
+</h4>
 <p>Websites typically contain a great deal of code that is not directly displayed in the use case. In addition, displayed text often includes menus, headers, footers, or other small text snippets. Using natural language processing (NLP) can help clean up the text, but it is tedious and often produces low-quality output.</p>
 <p>Our approach is to filter out text that is not in sentences with at least a certain threshold to extract salient text. Also, when extracting text from multiple pages, we look for and remove shared header and footer language to avoid duplicating it in the final corpus.</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
@@ -199,22 +195,22 @@
 <span class="va">org_web_text</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/get_all_texts.html">get_all_texts</a></span><span class="op">(</span><span class="st">"http://www.ibew567.com"</span><span class="op">)</span></code></pre></div>
 </div>
 </div>
-<div id="social-media-handles" class="section level3">
-<h3 class="hasAnchor">
-<a href="#social-media-handles" class="anchor"></a>Social media handles</h3>
+<div class="section level3">
+<h3 id="social-media-handles">Social media handles<a class="anchor" aria-label="anchor" href="#social-media-handles"></a>
+</h3>
 <p>Social media posts help to investigate the public presence of organizations. However, there is no standard way of identifying the social media handles belonging to a given organization.</p>
 <p>Here, we approach this problem by extracting social media handles from an organization’s website. As a secondary strategy, we provide the functionality to search for social media handles using the Bing search application programming interface (API).</p>
-<div id="twitter-handle" class="section level4">
-<h4 class="hasAnchor">
-<a href="#twitter-handle" class="anchor"></a>Twitter handle</h4>
+<div class="section level4">
+<h4 id="twitter-handle">Twitter handle<a class="anchor" aria-label="anchor" href="#twitter-handle"></a>
+</h4>
 <p>Twitter handles are identified on a page by extracting all links on the page and then filtering for possible Twitter handles. If a handle can be found, some link cleanup is attempted before returning it.</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># get MoveOn's twitter handle</span>
 <span class="va">tw_handle</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/find_twitter_handle_from_org_page.html">find_twitter_handle_from_org_page</a></span><span class="op">(</span><span class="st">"https://moveon.org"</span><span class="op">)</span></code></pre></div>
 </div>
-<div id="facebook-page" class="section level4">
-<h4 class="hasAnchor">
-<a href="#facebook-page" class="anchor"></a>Facebook page</h4>
+<div class="section level4">
+<h4 id="facebook-page">Facebook page<a class="anchor" aria-label="anchor" href="#facebook-page"></a>
+</h4>
 <p>The <code><a href="reference/find_facebook_page_from_org_page.html">find_facebook_page_from_org_page()</a></code> function works similarly but looks for a Facebook page instead of a handle.</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># get MoveOn's Facebook page</span>
@@ -222,25 +218,25 @@
 </div>
 </div>
 </div>
-<div id="citing-this-package" class="section level2">
-<h2 class="hasAnchor">
-<a href="#citing-this-package" class="anchor"></a>Citing this package</h2>
+<div class="section level2">
+<h2 id="citing-this-package">Citing this package<a class="anchor" aria-label="anchor" href="#citing-this-package"></a>
+</h2>
 <p>To cite <strong>MapAgora</strong>, use:</p>
 <blockquote>
-<p>De Vries, M and Kim, J. (2021). MapAgora: R package for getting tax reports, websites, and social media handles related to nonprofit organizations in the United States. R package version 0.0.6, <a href="https://snfagora.github.io/MapAgora/" class="uri">https://snfagora.github.io/MapAgora/</a>.</p>
+<p>De Vries, M and Kim, J. (2021). MapAgora: R package for getting tax reports, websites, and social media handles related to nonprofit organizations in the United States. R package version 0.0.6, <a href="https://snfagora.github.io/MapAgora/" class="external-link uri">https://snfagora.github.io/MapAgora/</a>.</p>
 </blockquote>
 </div>
-<div id="contributing" class="section level2">
-<h2 class="hasAnchor">
-<a href="#contributing" class="anchor"></a>Contributing</h2>
+<div class="section level2">
+<h2 id="contributing">Contributing<a class="anchor" aria-label="anchor" href="#contributing"></a>
+</h2>
 <ul>
-<li><p>If you would like to report bugs, suggest features, or leave comments, please <a href="https://github.com/snfagora/MapAgora/issues">create issues</a>.</p></li>
-<li><p>If you would like to contribute code, please fork the source code, modify, and issue a <a href="https://docs.github.com/en/github/collaborating-with-issues-and-pull-requests/creating-a-pull-request-from-a-fork">pull request</a>.</p></li>
+<li><p>If you would like to report bugs, suggest features, or leave comments, please <a href="https://github.com/snfagora/MapAgora/issues" class="external-link">create issues</a>.</p></li>
+<li><p>If you would like to contribute code, please fork the source code, modify, and issue a <a href="https://docs.github.com/en/github/collaborating-with-issues-and-pull-requests/creating-a-pull-request-from-a-fork" class="external-link">pull request</a>.</p></li>
 </ul>
 </div>
-<div id="acknowledgements" class="section level2">
-<h2 class="hasAnchor">
-<a href="#acknowledgements" class="anchor"></a>Acknowledgements</h2>
+<div class="section level2">
+<h2 id="acknowledgements">Acknowledgements<a class="anchor" aria-label="anchor" href="#acknowledgements"></a>
+</h2>
 <p>We acknowledge support from the SNF Agora Institue and P3 Lab at the Johns Hopkins University.</p>
 </div>
 </div>
@@ -248,46 +244,57 @@
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <div class="links">
-<h2>Links</h2>
+<h2 data-toc-skip>Links</h2>
 <ul class="list-unstyled">
-<li>Browse source code at <br><a href="https://github.com/snfagora/MapAgora/">https://​github.com/​snfagora/​MapAgora/​</a>
-</li>
-<li>Report a bug at <br><a href="https://github.com/snfagora/MapAgora/issues">https://​github.com/​snfagora/​MapAgora/​issues</a>
-</li>
-</ul>
-</div>
-<div class="license">
-<h2>License</h2>
-<ul class="list-unstyled">
-<li><a href="LICENSE.html">Full license</a></li>
-<li><small><a href="https://opensource.org/licenses/mit-license.php">MIT</a> + file <a href="LICENSE-text.html">LICENSE</a></small></li>
-</ul>
-</div>
-<div class="developers">
-<h2>Developers</h2>
-<ul class="list-unstyled">
-<li>Milan de Vries <br><small class="roles"> Author </small>  </li>
-<li>Jae Yeon Kim <br><small class="roles"> Author, maintainer </small> <a href="https://orcid.org/0000-0002-6533-7910" target="orcid.widget" aria-label="ORCID"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
+<li><a href="https://github.com/snfagora/MapAgora/" class="external-link">Browse source code</a></li>
+<li><a href="https://github.com/snfagora/MapAgora/issues" class="external-link">Report a bug</a></li>
 </ul>
 </div>
 
-  <div class="dev-status">
-<h2>Dev status</h2>
+<div class="license">
+<h2 data-toc-skip>License</h2>
 <ul class="list-unstyled">
-<li><a href="https://github.com/snfagora/MapAgora/actions"><img src="https://github.com/snfagora/MapAgora/workflows/R-CMD-check/badge.svg" alt="R-CMD-check"></a></li>
-<li><a href="https://www.repostatus.org/#active"><img src="https://www.repostatus.org/badges/latest/active.svg" alt="Project Status: Active – The project has reached a stable, usable state and is being actively developed."></a></li>
+<li><a href="LICENSE.html">Full license</a></li>
+<li><small><a href="https://opensource.org/licenses/mit-license.php" class="external-link">MIT</a> + file <a href="LICENSE-text.html">LICENSE</a></small></li>
 </ul>
 </div>
+
+
+<div class="citation">
+<h2 data-toc-skip>Citation</h2>
+<ul class="list-unstyled">
+<li><a href="authors.html#citation">Citing MapAgora</a></li>
+</ul>
 </div>
+
+<div class="developers">
+<h2 data-toc-skip>Developers</h2>
+<ul class="list-unstyled">
+<li>Milan de Vries <br><small class="roles"> Author </small>  </li>
+<li>Jae Yeon Kim <br><small class="roles"> Author, maintainer </small> <a href="https://orcid.org/0000-0002-6533-7910" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
+</ul>
+</div>
+
+<div class="dev-status">
+<h2 data-toc-skip>Dev status</h2>
+<ul class="list-unstyled">
+<li><a href="https://github.com/snfagora/MapAgora/actions" class="external-link"><img src="https://github.com/snfagora/MapAgora/workflows/R-CMD-check/badge.svg" alt="R-CMD-check"></a></li>
+<li><a href="https://www.repostatus.org/#active" class="external-link"><img src="https://www.repostatus.org/badges/latest/active.svg" alt="Project Status: Active – The project has reached a stable, usable state and is being actively developed."></a></li>
+</ul>
+</div>
+
+  </div>
 </div>
 
 
       <footer><div class="copyright">
-  <p>Developed by Milan de Vries, Jae Yeon Kim.</p>
+  <p></p>
+<p>Developed by Milan de Vries, Jae Yeon Kim.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
 </div>
 
       </footer>
@@ -295,6 +302,8 @@
 
   
 
+
+  
 
   </body>
 </html>
