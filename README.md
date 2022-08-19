@@ -172,3 +172,7 @@ To cite **MapAgora**, use:
 ## Acknowledgements
 
 We acknowledge support from the SNF Agora Institue and P3 Lab at the Johns Hopkins University. 
+
+## Other resources 
+
+To search an individual tax exempt organization, we recommend using [the IRS's Tax Exempt Organization Search Tool](https://www.irs.gov/charities-non-profits/tax-exempt-organization-search).
