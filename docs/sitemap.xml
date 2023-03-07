@@ -61,6 +61,12 @@
     <loc>/reference/extract_about_page_content.html</loc>
   </url>
   <url>
+    <loc>/reference/extract_contact_links.html</loc>
+  </url>
+  <url>
+    <loc>/reference/extract_contact_page_content.html</loc>
+  </url>
+  <url>
     <loc>/reference/extract_financial_info.html</loc>
   </url>
   <url>
@@ -71,6 +77,9 @@
   </url>
   <url>
     <loc>/reference/find_all.html</loc>
+  </url>
+  <url>
+    <loc>/reference/find_contact_link.html</loc>
   </url>
   <url>
     <loc>/reference/find_facebook_page_from_org_page.html</loc>
@@ -112,6 +121,9 @@
     <loc>/reference/get_aws_url_from_server.html</loc>
   </url>
   <url>
+    <loc>/reference/get_contact_page_content.html</loc>
+  </url>
+  <url>
     <loc>/reference/get_filing_type_990.html</loc>
   </url>
   <url>
@@ -146,6 +158,9 @@
   </url>
   <url>
     <loc>/reference/if_not_about.html</loc>
+  </url>
+  <url>
+    <loc>/reference/if_not_contact.html</loc>
   </url>
   <url>
     <loc>/reference/if_not_search_term.html</loc>

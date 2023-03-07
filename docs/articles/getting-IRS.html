@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MapAgora</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.6</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.7</span>
       </span>
     </div>
 
@@ -95,10 +95,10 @@
     
     
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="https://devtools.r-lib.org/" class="external-link">devtools</a></span><span class="op">)</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"devtools"</span><span class="op">)</span>
-
-<span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org/reference/remote-reexports.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"snfagora/MapAgora"</span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">MapAgora</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="https://devtools.r-lib.org/" class="external-link">devtools</a></span><span class="op">)</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"devtools"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"snfagora/MapAgora"</span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">MapAgora</span><span class="op">)</span></span></code></pre></div>
 <div class="section level2">
 <h2 id="irs-filings">IRS filings<a class="anchor" aria-label="anchor" href="#irs-filings"></a>
 </h2>
@@ -109,8 +109,8 @@ on civic organizations.</p>
 </h3>
 <p>To begin, load the IRS index for a selected year.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># load 2018 index file from the IRS Amazon Web Server</span>
-<span class="va">idx_2018</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/import_idx.html">import_idx</a></span><span class="op">(</span><span class="fl">2018</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># load 2018 index file from the IRS Amazon Web Server</span></span>
+<span><span class="va">idx_2018</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/import_idx.html">import_idx</a></span><span class="op">(</span><span class="fl">2018</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="get-the-aws-url-for-the-filing-of-interest">Get the AWS URL for the filing of interest<a class="anchor" aria-label="anchor" href="#get-the-aws-url-for-the-filing-of-interest"></a>
@@ -136,8 +136,8 @@ the beginning and end dates of that filing’s year.</p>
 <code>get_aws_url</code> function. This function returns the location of
 the XML file in the AWS repository.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># this organization's 2018 990 filing can be found here</span>
-<span class="va">aws_url</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_aws_url.html">get_aws_url</a></span><span class="op">(</span><span class="st">"061553389"</span>, <span class="fl">2018</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># this organization's 2018 990 filing can be found here</span></span>
+<span><span class="va">aws_url</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_aws_url.html">get_aws_url</a></span><span class="op">(</span><span class="st">"061553389"</span>, <span class="fl">2018</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="get-the-xml-file-for-a-given-aws-url">Get the XML file for a given AWS URL<a class="anchor" aria-label="anchor" href="#get-the-xml-file-for-a-given-aws-url"></a>
@@ -147,11 +147,11 @@ Note that because this function calls <code><a href="../reference/get_aws_url.ht
 is no need to find the URL location. The first step for most uses of
 this package is <code><a href="../reference/get_990.html">get_990()</a></code>.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co">## load an XML for this organization's 2018 filing.</span>
-<span class="va">xml_root</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_990.html">get_990</a></span><span class="op">(</span><span class="st">"221405099"</span>, year <span class="op">=</span> <span class="fl">2018</span><span class="op">)</span>
-
-<span class="co">## see name of this organization</span>
-<span class="va">organization_name</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_organization_name_990.html">get_organization_name_990</a></span><span class="op">(</span><span class="st">"221405099"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co">## load an XML for this organization's 2018 filing.</span></span>
+<span><span class="va">xml_root</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_990.html">get_990</a></span><span class="op">(</span><span class="st">"221405099"</span>, year <span class="op">=</span> <span class="fl">2018</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co">## see name of this organization</span></span>
+<span><span class="va">organization_name</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_organization_name_990.html">get_organization_name_990</a></span><span class="op">(</span><span class="st">"221405099"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="get-a-specific-field-from-a-filing">Get a specific field from a filing<a class="anchor" aria-label="anchor" href="#get-a-specific-field-from-a-filing"></a>
@@ -161,19 +161,19 @@ depending on their specific status. Knowledge of the specific form type
 is not required to extract values with this package, but the type of a
 given form can be seen with the following:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co">## see form type of a filing</span>
-<span class="va">filing_type</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_filing_type_990.html">get_filing_type_990</a></span><span class="op">(</span><span class="va">xml_root</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co">## see form type of a filing</span></span>
+<span><span class="va">filing_type</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_filing_type_990.html">get_filing_type_990</a></span><span class="op">(</span><span class="va">xml_root</span><span class="op">)</span></span></code></pre></div>
 <p>Available parsed fields can be seen in the <code>irs_fields</code>
 table. The <code>package_variable</code> column lists the variable names
 to be used in functions. Other columns show both the XML path and the
 physical form location for that variable. These variables are grouped by
 category and subcategory.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co">## see available variables</span>
-<span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">irs_fields</span><span class="op">)</span>
-
-<span class="co">## get total revenue for this org</span>
-<span class="va">revenue_total</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_single_value_990.html">get_single_value_990</a></span><span class="op">(</span><span class="va">xml_root</span>, <span class="st">"revenue_total"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co">## see available variables</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">irs_fields</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co">## get total revenue for this org</span></span>
+<span><span class="va">revenue_total</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_single_value_990.html">get_single_value_990</a></span><span class="op">(</span><span class="va">xml_root</span>, <span class="st">"revenue_total"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="see-related-entities">See related entities<a class="anchor" aria-label="anchor" href="#see-related-entities"></a>
@@ -182,8 +182,8 @@ category and subcategory.</p>
 EINs of related organizations can be found with
 <code><a href="../reference/get_scheduleR.html">get_scheduleR()</a></code>.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co">## see related EINs for a given EIN and given tax year filing.</span>
-<span class="va">related_eins</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_scheduleR.html">get_scheduleR</a></span><span class="op">(</span><span class="st">"061553389"</span>, <span class="fl">2018</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co">## see related EINs for a given EIN and given tax year filing.</span></span>
+<span><span class="va">related_eins</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_scheduleR.html">get_scheduleR</a></span><span class="op">(</span><span class="st">"061553389"</span>, <span class="fl">2018</span><span class="op">)</span></span></code></pre></div>
 <p>This function returns multiple values if multiple related
 organizations are reported and indicates if no related organizations are
 reported.</p>
@@ -195,11 +195,11 @@ reported.</p>
 mission and main activities in 990 filings. The concatenated responses
 to these fields can be extracted.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># mission statement</span>
-<span class="va">mission_desc</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_value_990.html">get_value_990</a></span><span class="op">(</span><span class="va">xml_root</span>, <span class="st">"mission_desc"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># mission statement</span></span>
+<span><span class="va">mission_desc</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_value_990.html">get_value_990</a></span><span class="op">(</span><span class="va">xml_root</span>, <span class="st">"mission_desc"</span><span class="op">)</span></span></code></pre></div>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># program description</span>
-<span class="va">program_desc</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_value_990.html">get_value_990</a></span><span class="op">(</span><span class="va">xml_root</span>, <span class="st">"program_desc"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># program description</span></span>
+<span><span class="va">program_desc</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_value_990.html">get_value_990</a></span><span class="op">(</span><span class="va">xml_root</span>, <span class="st">"program_desc"</span><span class="op">)</span></span></code></pre></div>
 </div>
 </div>
   </div>
@@ -221,7 +221,7 @@ to these fields can be extracted.</p>
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer>

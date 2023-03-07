@@ -1,6 +1,6 @@
 Package: MapAgora
 Title: R Package for Collecting U.S. Nonprofit Organization Data 
-Version: 0.0.6
+Version: 0.0.7
 Authors@R: 
     c(person(given = "Milan",
            family = "de Vries",
@@ -41,7 +41,7 @@ Imports:
     RCurl
 LazyData: true
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.2.0
+RoxygenNote: 7.2.3
 Suggests: 
     testthat (>= 3.0.0),
     knitr,

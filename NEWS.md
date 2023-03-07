@@ -1,3 +1,7 @@
+# MapAgora 0.0.7.
+
+* Added contact email extract functions.
+
 # MapAgora 0.0.6.
 
 * Added data availability checking functions.
