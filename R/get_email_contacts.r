@@ -255,6 +255,7 @@ find_contact_link <- function(base_url) {
 #'
 #' @return contact page text (character vector)
 #' @importFrom htm2txt gettxt
+#' @importFrom stringr str_extract_all
 #' @export
 
 extract_contact_page_content <- function(contact_url) {
@@ -288,6 +289,8 @@ extract_contact_page_content <- function(contact_url) {
 
 get_contact_page_content <- function(base_url) {
 
+  #base_url <- "https://www.advancingjustice-aajc.org/"
+
   # Search prospective contact URLs
   contact_url <- find_contact_link(base_url)
 
@@ -301,9 +304,23 @@ get_contact_page_content <- function(base_url) {
     strsplit("\n") %>%
     unlist()
 
-  email_contact <- unique(contact_url_text[str_detect(contact_url_text, pattern = "@")])
+  # Define the three email patterns
+  email_pattern_1 <- "\\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}\\b"
+  email_pattern_2 <- "\\b[A-Za-z0-9._%+-]+ at [A-Za-z0-9.-]+ dot [A-Za-z]{2,}\\b"
+  email_pattern_3 <- "\\b[A-Za-z0-9._%+-]+\\[at\\][A-Za-z0-9.-]+\\[dot\\][A-Za-z]{2,}\\b"
 
-  contact_page <- data.frame("email_contact" = email_contact)
+  # Extract email contacts based on the three patterns
+  email_contacts <- c(
+    str_extract_all(contact_url_text, email_pattern_1, simplify = TRUE),
+    str_extract_all(contact_url_text, email_pattern_2, simplify = TRUE),
+    str_extract_all(contact_url_text, email_pattern_3, simplify = TRUE)
+  )
+
+  # Remove empty elements and duplicates
+  email_contacts <- unique(na.omit(email_contacts))
+  email_contacts <- email_contacts[email_contacts != ""]
+
+  contact_page <- data.frame("email_contact" = email_contacts)
 
   return(contact_page)
 }
