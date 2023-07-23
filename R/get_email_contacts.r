@@ -74,7 +74,7 @@ get_contact_links_from_website <- function(base_url) {
   correct_base_url <- suffix_extract(domain(base_url))$host
 
   # make sure URL exists
-  if (!url.exists(correct_base_url,  .opts = list(timeout = 1, maxredirs = 2, verbose = TRUE))) {
+  if (!url.exists(correct_base_url,  .opts = list(timeout = 1, maxredirs = 2))) {
 
     page_urls <- NA
 
