@@ -70,12 +70,13 @@ get_email_contact_from_webpage <- function(page_url) {
 
 get_contact_links_from_website <- function(base_url) {
 
-  #base_url <- "http://114thaviationcompany.com/"
+  base_url <- "http://1982.dartmouth.org"
+
   # make sure it's a base URL
   correct_base_url <- suffix_extract(domain(base_url))$host
 
   # make sure URL exists
-  if (!url.exists(correct_base_url)) {
+  if (!url.exists(correct_base_url,  .opts = list(timeout = 1, maxredirs = 2, verbose = TRUE))) {
 
     page_urls <- NA
 
