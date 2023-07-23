@@ -64,6 +64,7 @@ get_email_contact_from_webpage <- function(page_url) {
 #' @importFrom rvest html_nodes
 #' @importFrom urltools domain
 #' @importFrom urltools suffix_extract
+#' @importFrom RCurl url.exists
 #' @importFrom glue glue
 #' @export
 
@@ -71,6 +72,15 @@ get_contact_links_from_website <- function(base_url) {
 
   # make sure it's a base URL
   correct_base_url <- suffix_extract(domain(base_url))$host
+
+  # make sure URL exists
+  if (!url.exists(correct_base_url)) {
+
+    page_urls <- NA
+
+    return(page_urls)
+
+  }
 
   # collect all relevant child links associated with the base url
   page_content <- content(GET(correct_base_url), as = "text")
