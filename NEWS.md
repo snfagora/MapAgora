@@ -1,3 +1,7 @@
+# MapAgora 0.0.8.
+
+* Updated contact email extract functions (extracting email contacts from all child URLs associated with a base URL).
+
 # MapAgora 0.0.7.
 
 * Added contact email extract functions.

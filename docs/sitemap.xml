@@ -121,7 +121,13 @@
     <loc>/reference/get_aws_url_from_server.html</loc>
   </url>
   <url>
+    <loc>/reference/get_contact_links_from_website.html</loc>
+  </url>
+  <url>
     <loc>/reference/get_contact_page_content.html</loc>
+  </url>
+  <url>
+    <loc>/reference/get_email_contact_from_webpage.html</loc>
   </url>
   <url>
     <loc>/reference/get_filing_type_990.html</loc>
