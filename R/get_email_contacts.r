@@ -88,7 +88,7 @@ get_contact_links_from_website <- function(base_url) {
   }
 
   # collect all relevant child links associated with the base url
-  page_content <- content(GET(correct_base_url), as = "text")
+  page_content <- content(GET(page_url), type = "text/html; charset=iso-8859-1")
 
   # make sure page content exists
 
