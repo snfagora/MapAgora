@@ -70,6 +70,7 @@ get_email_contact_from_webpage <- function(page_url) {
 
 get_contact_links_from_website <- function(base_url) {
 
+  #base_url <- "http://114thaviationcompany.com/"
   # make sure it's a base URL
   correct_base_url <- suffix_extract(domain(base_url))$host
 
@@ -84,6 +85,17 @@ get_contact_links_from_website <- function(base_url) {
 
   # collect all relevant child links associated with the base url
   page_content <- content(GET(correct_base_url), as = "text")
+
+  # make sure page content exists
+
+  # make sure URL exists
+  if (is.na(page_content)) {
+
+    page_urls <- NA
+
+    return(page_urls)
+
+  }
 
   webpage <- read_html(page_content)
 
