@@ -84,7 +84,7 @@ get_contact_links_from_website <- function(base_url) {
   }
 
   # collect all relevant child links associated with the base url
-  page_content <- content(GET(page_url), type = "text/html; charset=iso-8859-1")
+  page_content <- content(GET(correct_base_url), type = "text/html; charset=iso-8859-1")
 
   # make sure page content exists
 
@@ -97,9 +97,7 @@ get_contact_links_from_website <- function(base_url) {
 
   }
 
-  webpage <- read_html(page_content)
-
-  links <- html_attr(html_nodes(webpage, "a"), "href")
+  links <- html_attr(html_nodes(page_content, "a"), "href")
 
   # empty links
   links <- links[links != ""]
@@ -114,6 +112,15 @@ get_contact_links_from_website <- function(base_url) {
   links <- links[!grepl("\\/.*\\/.*", links)]
 
   page_urls <- glue("{correct_base_url}{links}")
+
+  # if no child links exist
+  if (is_empty(page_urls)) {
+
+    page_urls <- NA
+
+    return(page_urls)
+
+  }
 
   return(page_urls)
 
