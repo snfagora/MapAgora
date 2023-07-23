@@ -70,11 +70,6 @@ get_email_contact_from_webpage <- function(page_url) {
 
 get_contact_links_from_website <- function(base_url) {
 
-<<<<<<< HEAD
-=======
-  base_url <- "http://1982.dartmouth.org"
-
->>>>>>> 41415328d81819134bbfe152c84d7947a02713f5
   # make sure it's a base URL
   correct_base_url <- suffix_extract(domain(base_url))$host
 
