@@ -22,10 +22,6 @@ get_email_contact_from_webpage <- function(page_url) {
 
   webpage <- html_text(page_content)
 
-  email_pattern_1 <- "\\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}\\b"
-  email_pattern_2 <- "\\b[A-Za-z0-9._%+-]+ at [A-Za-z0-9.-]+ dot [A-Za-z]{2,}\\b"
-  email_pattern_3 <- "\\b[A-Za-z0-9._%+-]+\\[at\\][A-Za-z0-9.-]+\\[dot\\][A-Za-z]{2,}\\b"
-
   email1 <- regmatches(webpage, gregexpr(email_pattern_1, webpage))
 
   email2 <- regmatches(webpage, gregexpr(email_pattern_2, webpage))
