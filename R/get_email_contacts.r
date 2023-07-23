@@ -18,15 +18,19 @@ get_email_contact_from_webpage <- function(page_url) {
   email_pattern_2 <- "\\b[A-Za-z0-9._%+-]+ at [A-Za-z0-9.-]+ dot [A-Za-z]{2,}\\b"
   email_pattern_3 <- "\\b[A-Za-z0-9._%+-]+\\[at\\][A-Za-z0-9.-]+\\[dot\\][A-Za-z]{2,}\\b"
 
-  page_content <- content(GET(page_url), as = "text")
+  page_content <- content(GET(page_url), type = "text/html; charset=iso-8859-1")
 
-  webpage <- read_html(page_content)
+  webpage <- html_text(page_content)
 
-  email1 <- regmatches(page_content, gregexpr(email_pattern_1, page_content))
+  email_pattern_1 <- "\\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}\\b"
+  email_pattern_2 <- "\\b[A-Za-z0-9._%+-]+ at [A-Za-z0-9.-]+ dot [A-Za-z]{2,}\\b"
+  email_pattern_3 <- "\\b[A-Za-z0-9._%+-]+\\[at\\][A-Za-z0-9.-]+\\[dot\\][A-Za-z]{2,}\\b"
 
-  email2 <- regmatches(page_content, gregexpr(email_pattern_2, page_content))
+  email1 <- regmatches(webpage, gregexpr(email_pattern_1, webpage))
 
-  email3 <- regmatches(page_content, gregexpr(email_pattern_3, page_content))
+  email2 <- regmatches(webpage, gregexpr(email_pattern_2, webpage))
+
+  email3 <- regmatches(webpage, gregexpr(email_pattern_3, webpage))
 
   emails <- unlist(c(email1, email2, email3))
 
