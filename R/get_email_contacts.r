@@ -70,6 +70,7 @@ get_email_contact_from_webpage <- function(page_url) {
 
 get_contact_links_from_website <- function(base_url) {
 
+  # base_url <- "http://atwb.org"
   # make sure it's a base URL
   correct_base_url <- suffix_extract(domain(base_url))$host
 
@@ -84,6 +85,16 @@ get_contact_links_from_website <- function(base_url) {
 
   # collect all relevant child links associated with the base url
   page_content <- content(GET(correct_base_url), type = "text/html; charset=iso-8859-1")
+
+  # if page content is null
+
+  if (is.null(page_content)) {
+
+    page_urls <- NA
+
+    return(page_urls)
+
+  }
 
   # make sure page content exists
 
