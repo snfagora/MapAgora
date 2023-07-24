@@ -20,6 +20,14 @@ get_email_contact_from_webpage <- function(page_url) {
 
   page_content <- content(GET(page_url), type = "text/html; charset=iso-8859-1")
 
+  if (is_empty(page_content))
+  {
+    out <- data.frame(
+      "page_url" = page_url,
+      "email_contact" = NA
+    )
+  }
+
   webpage <- html_text(page_content)
 
   email1 <- regmatches(webpage, gregexpr(email_pattern_1, webpage))
@@ -56,82 +64,21 @@ get_email_contact_from_webpage <- function(page_url) {
 #' @param base_url A website URL
 #'
 #' @return out A character vector that contains child links associated with email contacts (i.e., page_urls)
-#' @importFrom stringr str_detect
-#' @importFrom httr GET
-#' @importFrom httr content
-#' @importFrom rvest read_html
-#' @importFrom rvest html_attr
-#' @importFrom rvest html_nodes
 #' @importFrom urltools domain
 #' @importFrom urltools suffix_extract
-#' @importFrom RCurl url.exists
 #' @importFrom glue glue
 #' @export
 
 get_contact_links_from_website <- function(base_url) {
 
-  # base_url <- "http://atwb.org"
   # make sure it's a base URL
   correct_base_url <- suffix_extract(domain(base_url))$host
 
-  # make sure URL exists
-  if (!url.exists(correct_base_url,  .opts = list(timeout = 1, maxredirs = 2))) {
+  contact_url <- glue(correct_base_url, "/contact")
 
-    page_urls <- NA
+  contacts <- c(correct_base_url, contact_url)
 
-    return(page_urls)
-
-  }
-
-  # collect all relevant child links associated with the base url
-  page_content <- content(GET(correct_base_url), type = "text/html; charset=iso-8859-1")
-
-  # if page content is null
-
-  if (is.null(page_content)) {
-
-    page_urls <- NA
-
-    return(page_urls)
+  return(contacts)
 
   }
 
-  # make sure page content exists
-
-  # make sure URL exists
-  if (is.na(page_content)) {
-
-    page_urls <- NA
-
-    return(page_urls)
-
-  }
-
-  links <- html_attr(html_nodes(page_content, "a"), "href")
-
-  # empty links
-  links <- links[links != ""]
-
-  # not child links
-  links <- links[!str_detect(links, "http")]
-
-  # only child pages
-  links <- unique(links[grepl("^\\/[A-Za-z]", links)])
-
-  # only one depth
-  links <- links[!grepl("\\/.*\\/.*", links)]
-
-  page_urls <- glue("{correct_base_url}{links}")
-
-  # if no child links exist
-  if (is_empty(page_urls)) {
-
-    page_urls <- NA
-
-    return(page_urls)
-
-  }
-
-  return(page_urls)
-
-}
