@@ -24,7 +24,7 @@ get_email_contact_from_webpage <- function(page_url) {
 
     out <- data.frame(
       "page_url" = page_url,
-      "email_contact" = emails
+      "email_contact" = NA
     )
 
     return(out)
