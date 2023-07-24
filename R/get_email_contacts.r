@@ -8,6 +8,7 @@
 #' @importFrom httr content
 #' @importFrom httr set_config
 #' @importFrom httr status_code
+#' @importFrom httr timeout
 #' @importFrom rvest html_text
 #' @importFrom rvest read_html
 #' @importFrom purrr is_empty
