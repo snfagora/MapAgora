@@ -3,60 +3,64 @@
 #' @param page_url A webpage URL
 #'
 #' @return out A dataframe that contains email contact
-#' @importFrom stringr str_extract_all
+#' @importFrom stringr str_detect
 #' @importFrom httr GET
 #' @importFrom httr content
-#' @importFrom httr set_config
-#' @importFrom httr status_code
-#' @importFrom httr timeout
-#' @importFrom rvest html_text
 #' @importFrom rvest read_html
 #' @importFrom purrr is_empty
 #' @export
 
 get_email_contact_from_webpage <- function(page_url) {
-  email_pattern <- "\\b[A-Za-z0-9._%+-]+(?:\\[@\\]|\\sat\\s)[A-Za-z0-9.-]+(?:\\[dot\\]|[.])(?:[A-Za-z]{2,}|[A-Za-z]{4,})\\b"
 
-  # Set the timeout to 3 seconds
-  httr::set_config(timeout(3))
+  # Define the three email patterns
+  email_pattern_1 <- "\\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}\\b"
+  email_pattern_2 <- "\\b[A-Za-z0-9._%+-]+ at [A-Za-z0-9.-]+ dot [A-Za-z]{2,}\\b"
+  email_pattern_3 <- "\\b[A-Za-z0-9._%+-]+\\[at\\][A-Za-z0-9.-]+\\[dot\\][A-Za-z]{2,}\\b"
 
-  # Try to retrieve the page content and handle potential errors
-  tryCatch({
-    # Make the HTTP GET request with the specified timeout
-    response <- GET(page_url, type = "text/html; charset=iso-8859-1")
+  page_content <- content(GET(page_url), type = "text/html; charset=iso-8859-1")
 
-    # Check the status of the response
-    if (status_code(response) == 200) {
-      # Extract the content from the response
-      page_content <- content(response, as = "text")
+  # make sure URL exists
+  if (is.na(page_content)) {
 
-      if (is_empty(page_content)) {
-        return(data.frame("page_url" = page_url, "email_contact" = NA))
-      }
+    out <- data.frame(
+      "page_url" = page_url,
+      "email_contact" = emails
+    )
 
-      webpage <- html_text(page_content)
+    return(out)
 
-      emails <- unique(str_extract_all(webpage, email_pattern)[[1]])
+  }
 
-      if (length(emails) == 0) {
-        return(data.frame("page_url" = page_url, "email_contact" = NA))
-      }
+  webpage <- html_text(page_content)
 
-      out <- data.frame("page_url" = page_url, "email_contact" = emails)
+  email1 <- regmatches(webpage, gregexpr(email_pattern_1, webpage))
 
-      return(out)
-    } else {
-      # If the status code is not 200 (e.g., 404, 500), return NA
-      return(data.frame("page_url" = page_url, "email_contact" = NA))
-    }
-  }, error = function(e) {
-    # Handle any errors (e.g., invalid URLs, connection issues)
-    return(data.frame("page_url" = page_url, "email_contact" = NA))
-  })
+  email2 <- regmatches(webpage, gregexpr(email_pattern_2, webpage))
+
+  email3 <- regmatches(webpage, gregexpr(email_pattern_3, webpage))
+
+  emails <- unlist(c(email1, email2, email3))
+
+  emails <- unique(na.omit(emails))
+
+  emails <- emails[emails != ""]
+
+  if (is_empty(emails))
+  {
+    out <- data.frame(
+      "page_url" = page_url,
+      "email_contact" = NA
+    )
+  } else {
+
+    out <- data.frame(
+      "page_url" = page_url,
+      "email_contact" = emails
+    )
+  }
+
+  return(out)
 }
-
-
-
 
 #' Extract child links associated with email contacts
 #'
