@@ -3,7 +3,7 @@
 #' @param page_url A webpage URL
 #'
 #' @return out A dataframe that contains email contact
-#' @importFrom stringr str_detect
+#' @importFrom stringr str_extract_all
 #' @importFrom curl curl_fetch_memory
 #' @importFrom httr content
 #' @importFrom rvest read_html
@@ -74,14 +74,11 @@ get_email_contact_from_webpage <- function(page_url) {
 #' Extract child links associated with email contacts
 #'
 #' @param base_url A website URL
-#' @importFrom memoise memoise
 #'
 #' @return out A character vector that contains child links associated with email contacts (i.e., page_urls)
 #' @export
 
 get_contact_links_from_website <- function(base_url) {
-
-  get_email_contact_from_webpage <- memoise::memoise(get_email_contact_from_webpage)
 
   # Extract the domain from the base_url
   domain_name <- sub("^https?://", "", base_url)
@@ -99,12 +96,15 @@ get_contact_links_from_website <- function(base_url) {
 #' Extract emails from a base url
 #'
 #' @param base_url A website URL
+#' @importFrom memoise memoise
 #'
 #' @return out A dataframe that contains the page URLs and the email addresses appearing on these URLs
 #' @importFrom furrr future_map_dfr
 #' @export
 
 get_emails_from_website <- function(base_url) {
+
+  get_email_contact_from_webpage <- memoise::memoise(get_email_contact_from_webpage)
 
   page_urls <- get_contact_links_from_website(base_url)
 
