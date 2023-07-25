@@ -2,7 +2,7 @@
 % Please edit documentation in R/get_email_contacts.r
 \name{get_email_contact_from_webpage}
 \alias{get_email_contact_from_webpage}
-\title{Extract contact webpage content}
+\title{Get contact webpage content}
 \usage{
 get_email_contact_from_webpage(page_url)
 }
@@ -13,5 +13,5 @@ get_email_contact_from_webpage(page_url)
 out A dataframe that contains email contact
 }
 \description{
-Extract contact webpage content
+Get contact webpage content
 }

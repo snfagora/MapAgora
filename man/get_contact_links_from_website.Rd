@@ -2,7 +2,7 @@
 % Please edit documentation in R/get_email_contacts.r
 \name{get_contact_links_from_website}
 \alias{get_contact_links_from_website}
-\title{Extract child links associated with email contacts}
+\title{Get child links associated with email contacts}
 \usage{
 get_contact_links_from_website(base_url)
 }
@@ -13,5 +13,5 @@ get_contact_links_from_website(base_url)
 out A character vector that contains child links associated with email contacts (i.e., page_urls)
 }
 \description{
-Extract child links associated with email contacts
+Get child links associated with email contacts
 }

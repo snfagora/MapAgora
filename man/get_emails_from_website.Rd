@@ -2,7 +2,7 @@
 % Please edit documentation in R/get_email_contacts.r
 \name{get_emails_from_website}
 \alias{get_emails_from_website}
-\title{Extract emails from a base url}
+\title{Get emails from a base url}
 \usage{
 get_emails_from_website(base_url)
 }
@@ -13,5 +13,5 @@ get_emails_from_website(base_url)
 out A dataframe that contains the page URLs and the email addresses appearing on these URLs
 }
 \description{
-Extract emails from a base url
+Get emails from a base url
 }

@@ -4,6 +4,7 @@
 #'
 #' @return out A dataframe that contains email contact
 #' @importFrom stringr str_extract_all
+#' @importFrom stringr str_remove_all
 #' @importFrom curl curl_fetch_memory
 #' @importFrom httr content
 #' @importFrom rvest read_html
@@ -50,9 +51,15 @@ get_email_contact_from_webpage <- function(page_url) {
 
   emails <- unlist(stringr::str_extract_all(webpage, glue("{email_pattern_1}|{email_pattern_2}|{email_pattern_3}")))
 
+  # unclutter emails
+
   emails <- tolower(unique(na.omit(emails)))
 
   emails <- emails[emails != ""]
+
+  # clean emails
+
+  emails <- str_replace_all(emails, "(\\.org|\\.com|\\.net).*", "\\1")
 
   if (is_empty(emails))
   {
@@ -85,16 +92,11 @@ get_contact_links_from_website <- function(base_url) {
   domain_name <- sub("/.*", "", domain_name)
 
   # Create the contact URL
-  contact_url <- paste0(domain_name, "/contact")
-  contact_url <- sub("//contact", "/contact", contact_url)
-
-  # Create the contact URL
-  contact_url2 <- paste0(domain_name, "/contact-us")
-  contact_url2 <- sub("//contact", "/contact", contact_url2)
+  contact_url1 <- paste0(domain_name, "/contact")
+  contact_url1 <- sub("//contact", "/contact", contact_url1)
 
   # Return the contact_urls
-  contacts <- c(contact_url1, contact_url2)
-  return(contacts)
+  return(contact_url1)
 }
 
 #' Get emails from a base url
