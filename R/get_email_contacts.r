@@ -1,4 +1,4 @@
-#' Extract contact webpage content
+#' Get contact webpage content
 #'
 #' @param page_url A webpage URL
 #'
@@ -71,7 +71,7 @@ get_email_contact_from_webpage <- function(page_url) {
   return(out)
 }
 
-#' Extract child links associated with email contacts
+#' Get child links associated with email contacts
 #'
 #' @param base_url A website URL
 #'
@@ -88,12 +88,16 @@ get_contact_links_from_website <- function(base_url) {
   contact_url <- paste0(domain_name, "/contact")
   contact_url <- sub("//contact", "/contact", contact_url)
 
-  # Return the base_url and contact_url
-  contacts <- c(domain_name, contact_url)
+  # Create the contact URL
+  contact_url2 <- paste0(domain_name, "/contact-us")
+  contact_url2 <- sub("//contact", "/contact", contact_url2)
+
+  # Return the contact_urls
+  contacts <- c(contact_url1, contact_url2)
   return(contacts)
 }
 
-#' Extract emails from a base url
+#' Get emails from a base url
 #'
 #' @param base_url A website URL
 #' @importFrom memoise memoise
@@ -105,6 +109,8 @@ get_contact_links_from_website <- function(base_url) {
 get_emails_from_website <- function(base_url) {
 
   get_email_contact_from_webpage <- memoise::memoise(get_email_contact_from_webpage)
+
+  get_contact_links_from_website <- memoise::memoise(get_contact_links_from_website)
 
   page_urls <- get_contact_links_from_website(base_url)
 
