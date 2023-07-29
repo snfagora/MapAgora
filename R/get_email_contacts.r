@@ -114,6 +114,8 @@ get_emails_from_website <- function(base_url) {
 
   get_contact_links_from_website <- memoise::memoise(get_contact_links_from_website)
 
+  message(paste("Parsing:", base_url))
+
   page_urls <- get_contact_links_from_website(base_url)
 
   out <- future_map_dfr(page_urls, get_email_contact_from_webpage)
